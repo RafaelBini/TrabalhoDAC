@@ -9,15 +9,23 @@ Vocês deverão desenvolver um sistema de Controle de Processos Jurídicos. Este
 - Parte
 
 O sistema mantém Processos, onde cada processo é composto por várias fases. 
+
 Cada processo é atribuído a somente um Juiz. 
+
 Cada processo possui duas partes (Promovente e Promovido), e cada parte é representada por um advogado. 
+
 Um juiz pode estar atribuído a vários processos. As partes podem estar em vários processos. 
+
 Um advogado pode representar várias partes.
+
 As partes só podem consultar os dados gerais de seus processos (tanto como promovente como promovido) e os dados de cada uma das fases.
+
 Os advogados podem criar novas fases, anexando documentos. 
+
 As fases possuem dois tipos: As informativas e as deliberativas. 
-As informativas não necessitam de intervenção do juiz. 
-As deliberativas trancam o processo para qualquer movimentação até que o juiz dê andamento. 
+- As informativas não necessitam de intervenção do juiz. 
+- As deliberativas trancam o processo para qualquer movimentação até que o juiz dê andamento. 
+
 As fases possuem uma sequência no processo, data e hora de criação, o advogado criador, um título, uma descrição e (opcionalmente) um arquivo pdf anexo.
 
 A resposta do juiz em qualquer fase pode ser:
