@@ -9,7 +9,6 @@ package servlets;
 import DAO.ConnectionFactory;
 import beans.Usuario;
 import DAO.UsuarioDAO;
-import beans.LoginBean;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
@@ -47,8 +46,6 @@ public class LoginServlet extends HttpServlet {
             int cpf = Integer.valueOf(request.getParameter("user").replace(".", "").replace("-", ""));
             String senha = request.getParameter("pass");
             
-
-            UsuarioDAO usuDAO = new UsuarioDAO(ConnectionFactory.getConnection());
             
             // Faz a validação do usuario e senha
             try{
@@ -63,20 +60,21 @@ public class LoginServlet extends HttpServlet {
                 }                
                 senha = hexString.toString().toLowerCase();
                 
-                // Valida se está correto
-                if (usuDAO.isPassCorrect(cpf,senha)){
+                // Recebe o usuario
+                Usuario u = UsuarioDAO.getUsuario(cpf, senha);
+                
+                // Se o usuário foi encontrado com essa senha,
+                if (u != null){
                     // Salva sessão
-                    LoginBean loginBean = new LoginBean();
-                    loginBean.setCpf(cpf);
-                    loginBean.setNome(usuDAO.getNome(cpf));
                     HttpSession session = request.getSession();
-                    session.setAttribute("u", loginBean);
+                    session.setAttribute("u", u);
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/portal.jsp");
                     rd.forward(request, response);
                     return;          
                 }
+                // Se o usuário não foi encontrado com essa senha,
                 else{
-
+                    // Redireciona para pagina de login e informa usu ou senha incorreta
                     RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
                     request.setAttribute("msg", "Usuário ou Senha incorreta!");
                     request.setAttribute("page", "index.jsp");
