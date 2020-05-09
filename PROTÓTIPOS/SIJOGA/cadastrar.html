@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script>
+        function efetuarCadastro() {
+            var user = document.getElementById("tipo").value;
+            if (user.includes("Juíz")) {
+                window.location.href = "juiz.html";
+            }
+            else if (user.includes("Advogado")) {
+                window.location.href = "advogado.html";
+            }
+            else {
+                window.location.href = "parte.html";
+            }
+
+            return false;
+        }    
+    </script>
+</head>
+
+<body bgcolor="darkblue">
+    <div
+        style="margin: auto; width: 40%; text-align: center; background-color: white; padding: 30px; border-radius: 15px;">
+        <form method="POST" onsubmit="return efetuarCadastro()">
+            <div style="margin: auto; display: block; text-align: center; margin-bottom: 27px; font-size: 35px;">SIJOGA
+            </div>
+            <input id="login" autofocus placeholder="Login" type="text" style="margin: auto; display: block;" />
+            <br />
+            <input id="senha" placeholder="Senha" type="password" style="margin: auto;display: block;" />
+            <br />
+            Acesso de: <select id="tipo" placeholder="Senha" type="password" style="margin: auto;display: inline;">
+                <option>Parte</option>
+                <option>Juíz</option>
+                <option>Advogado</option>
+            </select>
+            <br />
+            <hr />
+            <br />
+            <input id="nome" autofocus placeholder="Nome" type="text" style="margin: auto; display: block;" />
+            <br />
+            <input id="cpf" autofocus placeholder="CPF" type="text" style="margin: auto; display: block;" />
+            <br />
+            <input id="email" autofocus placeholder="Email" type="text" style="margin: auto; display: block;" />
+            <br />
+            <input id="endereco" autofocus placeholder="Endereço" type="text" style="margin: auto; display: block;" />
+            <br />
+            <br />
+            <input type="button" onclick="window.location.href='index.html'" style="margin: auto; display: inline;"
+                value="Voltar" />
+            <input type="submit" style="margin: auto; display: inline;" value="Cadastrar" />
+        </form>
+    </div>
+</body>
+
+</html>
