@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap');
+@import "colorscheme.css";
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font: 400 14px Roboto, sans-serif !important;
+    background-color: var(--light);
+    -webkit-font-smoothing: antialiased;
+}
+
+input, button, textarea {
+    font: 400 14px Roboto, sans-serif;
+}
+
+button {
+    cursor: pointer;
+}
+
+small {
+    font-weight: 300;
+}
+
+input {
+    outline: none !important;
+}
+
+input[type=text],
+input[type=number],
+input[type=date],
+input[type=password],
+input[type=email],
+select {
+    border-radius: 15px !important;
+    border: none !important;
+    height: 30px !important;
+    padding: 5px !important;
+    text-align: center !important;
+}
+
+select {
+    font: 400 14px Roboto, sans-serif !important;
+}
+
+input[type=text]:focus,
+input[type=number]:focus,
+input[type=date]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+select:focus {
+    border: 1px solid var(--blurple);
+    transition: 0.2s;
+}
+
+h1 {
+    font: 700 38px Roboto, sans-serif;
+}
+
+h6 {
+    font: 300 12px Roboto, sans-serif;
+}
+
+form {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.content {
+    margin: 0 auto;
+    width: 40%;
+    text-align: center;
+    background-color: var(--light);
+    padding: 30px;
+    border-radius: 15px;
+    top: -50%;
+    transform: translate(0, 10%);
+}
+
