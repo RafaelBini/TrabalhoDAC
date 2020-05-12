@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Title</title>
+</head>
+<body class="bg-primary-h">
+<nav class="navbar bg-dark">
+    <h1 class="text-white navbar-brand">SIJOGA</h1>
+    <h2 class="text-white" style="text-align: left; font-size: 16px; font-weight: 300">Juíz</h2>
+</nav>
+<div class="content">
+    <h1>Alterar fase do processo</h1>
+    <form>
+        <input type="submit" value="Aceito" class="btn bg-success text-white">
+        <input type="submit" value="Negado" class="btn bg-danger text-white">
+        <input type="submit" value="Intimação" class="btn bg-warning text-white">
+        <hr>
+        <hr>
+        <div class="form-group">
+            <label for="parecer">Parecer final</label>
+            <textarea id="parecer" name="parecer" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <div>
+                Vencedor
+            </div>
+            <label for="vencedor-promovente">
+                <input type="radio" name="vencedor" value="promovente" id="vencedor-promovente"> Promovente
+            </label>
+            <label for="vencedor-promovido">
+                <input type="radio" name="vencedor" id="vencedor-promovido"> Promovido
+            </label>
+        </div>
+        <input type="submit" value="Encerrar" class="btn bg-primary text-white">
+    </form>
+</div>
+</body>
+</html>
