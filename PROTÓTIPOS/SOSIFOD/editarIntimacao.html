@@ -7,49 +7,52 @@
 		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/styles.css">
 	<script src="js/cadastrarIntimacao.js"></script>
-	<title>Cadastrar Intimação</title>
+	<title>Editar Intimação</title>
 </head>
 
 <body class="bg-primary-h">
 	<nav class="navbar navbar-dark bg-dark">,
 		<h1 style="font-size: 25px;" class="navbar-brand">SOSIFOD</h1>
-		<h1 style="font-size: 25px; margin-left: 30%; margin-right: auto;" class="navbar-brand">Cadastro de Intimação
+		<h1 style="font-size: 25px; margin-left: 30%; margin-right: auto;" class="navbar-brand">Editar Intimação
 		</h1>
 	</nav>
 	<div
 		style="margin-left: auto; margin-right: auto; margin-top: 1%; width: 1000px; background-color: white; padding: 5px; border-radius: 30px;">
 		<div style="margin-left: auto; margin-right: auto; margin-top: 2%; margin-bottom: 2%; width: 900px;">
-			<form onsubmit="return cadastrar()">
+			<form action="listarIntimacoesAdmin.html">
 				<div class="form-group row">
 					<label style="font-weight: bolder;" class="col-sm-2 col-form-label" for="InputCPF">CPF:</label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="InputCPF" placeholder="CPF do intimado">
+						<input type="text" value="123.421.321-90" class="form-control" id="InputCPF"
+							placeholder="CPF do intimado">
 					</div>
 				</div>
 				<div class="form-group row">
 					<label style="font-weight: bolder;" class="col-sm-2 col-form-label" for="InputName">Nome:</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="InputName" placeholder="Nome do intimado">
+						<input type="text" value="Rafael Bini da Silva" class="form-control" id="InputName"
+							placeholder="Nome do intimado">
 					</div>
 				</div>
 				<div class="form-group row">
 					<label style="font-weight: bolder;" class="col-sm-2 col-form-label"
 						for="InputEmail">Endereço:</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="InputEndereco" placeholder="Endereço do intimado">
+						<input type="text" value="Um Endereço Aleatório, 1004" class="form-control" id="InputEndereco"
+							placeholder="Endereço do intimado">
 					</div>
 				</div>
 				<div class="form-group row">
 					<label style="font-weight: bolder;" class="col-sm-2 col-form-label" for="InputOficial">Oficial de
 						Justiça:</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" id="InputOficial"
+						<input type="text" value="Romualdo Gomes" class="form-control" id="InputOficial"
 							placeholder="Nome do Oficial de Justiça">
 					</div>
 					<label style="font-weight: bolder;" class="col-sm-2 col-form-label"
 						for="InputProcesso">Processo:</label>
 					<div class="col-sm-2">
-						<input type="text" class="form-control" id="InputProcesso" placeholder="N°">
+						<input type="text" value="21345" class="form-control" id="InputProcesso" placeholder="N°">
 					</div>
 				</div>
 				<br />
@@ -62,13 +65,14 @@
 				<div class="form-group">
 					<label style="font-weight: bolder;" for="estadoIntimacao">Estado da intimação</label><br />
 					<input type="radio" name="estadoIntimacao" value="efetuada">Efetuada
-					<input style="margin-left: 4px;" type="radio" name="estadoIntimacao" value="nEfetuada">Não efetuada
+					<input style="margin-left: 4px;" type="radio" name="estadoIntimacao" checked value="nEfetuada">Não
+					efetuada
 				</div>
 				<div class="form-group row">
 					<label style="font-weight: bolder;" class="col-sm-3 col-form-label"
 						for="InputDateIntimation">Data/Hora da Intimação:</label>
 					<div class="col-sm-3">
-						<input type="date" class="form-control" id="date">
+						<input type="date" value="2006-02-23" class="form-control" id="date">
 					</div>
 					<label style="font-weight: bolder;" class="col-sm-3 col-form-label"
 						for="InputDateExecution">Data/Hora de Execução:</label>
@@ -78,7 +82,7 @@
 				</div>
 				<br />
 				<center>
-					<a href="./admin.html"><button class="btn btn-secondary">Voltar</button></a>
+					<a href="./listarIntimacoesAdmin.html"><button class="btn btn-secondary">Voltar</button></a>
 					<button type="submit" class="btn btn-primary">Cadastrar</button>
 				</center>
 			</form>

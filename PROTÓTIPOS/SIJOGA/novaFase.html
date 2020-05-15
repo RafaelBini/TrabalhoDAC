@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-primary-h">
+    <div class="content">
+        <h1 class="text-dk">Nova Fase</h1>
+        <br />
+        <form method="POST" style="width: 320px" action="dadosAdvogado.html">
+            <div class="form-group">
+                <label for="endereco" class="text-primary">Título</label>
+                <input id="endereco" class="form-control" type="text" />
+            </div>
+            <div class="form-group">
+                <label for="parecer">Descrição</label>
+                <textarea id="parecer" name="parecer" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="button" class="btn bg-secondary text-white"
+                    onclick="window.location.href='dadosAdvogado.html'" value="Voltar" />
+                <input type="submit" class="btn bg-primary text-white" value="Cadastrar" />
+            </div>
+        </form>
+    </div>
+
+    <script src="js/cadastrar.js"></script>
+</body>
+
+</html>
