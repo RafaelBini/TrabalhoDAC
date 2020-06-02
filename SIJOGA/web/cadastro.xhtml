@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">  
+    <h:head>
+        <title>Cadastrar - SIJOGA</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" 
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="resources/css/styles.css" />
+    </h:head>
+    <h:body>
+        <p:growl />
+        <div class="content">
+            <h1 class="text-dk">SIJOGA</h1>
+            <h6 class="text-dk">Sistema Jurídico On-line para Grandes Administrações</h6>
+            <br />
+                <h:form id="form">
+                <div class="form-group">
+                    <label class="text-primary" for="login">Usuário</label>
+                    <h:inputText id="login" class="form-control" a:autofocus="true" value="#{usuarioMB.usuario.login}">
+                        <f:ajax execute="@this" render="form:errorMessageTag" listener="#{usuarioMB.validaUser}" />
+                    </h:inputText>
+                    <h:outputLabel id="errorMessageTag" for="login" value="#{usuarioMB.loginLabelMsg}" style="color: red"/>
+                </div>
+                <div class="form-group">
+                    <label class="text-primary" for="senha">Senha</label>
+                    <h:inputSecret id="senha" class="form-control"  value="#{usuarioMB.usuario.senha}" />
+                </div>
+                <div class="form-group">
+                    <label for="tipo" class="text-primary col-4">Acesso de: </label>
+                    <h:selectOneMenu class="form-control col-8 offset-2" id="tipo"  value="#{usuarioMB.usuario.tipo}">
+                        <f:selectItem itemValue="Juíz" />
+                        <f:selectItem itemValue="Advogado" />
+                    </h:selectOneMenu>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <label class="text-primary" for="nome">Nome</label>
+                    <h:inputText class="form-control" id="nome"  value="#{usuarioMB.usuario.nome}"/>
+                </div>
+                <div class="form-group">
+                    <label class="text-primary" for="cpf">CPF</label>
+                    <p:inputMask id="cpf" class="form-control" mask="999.999.999-99"  value="#{usuarioMB.usuario.cpf}">
+                        <f:ajax execute="@this" render="form:cpfLabelMsg" listener="#{usuarioMB.validaCpf}" />
+                    </p:inputMask>
+                    <h:outputLabel id="cpfLabelMsg" for="cpf" value="#{usuarioMB.cpfLabelMsg}" style="color: red"/>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="text-primary">E-mail</label>
+                    <h:inputText id="email" class="form-control"  value="#{usuarioMB.usuario.email}"/>
+                </div>
+                <h:panelGrid columns="2" columnClasses="esquerda, direita">
+
+                    <h:panelGrid columns="1"  style="width: 100%;">
+                        <h:outputLabel for="rua" class="text-primary" value="Rua" />
+                        <h:inputText id="rua" style="width: 100%"  value="#{usuarioMB.usuario.rua}"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1" style="width: 100%;">
+                        <h:outputLabel for="numero" class="text-primary" value="Número"/>
+                        <h:inputText id="numero" style="width: 100%"  value="#{usuarioMB.usuario.numero}"/>      
+                    </h:panelGrid>       
+
+
+
+                </h:panelGrid>
+                <h:panelGrid columns="2" style="width: 100%;">
+
+                    <h:panelGrid columns="1"  style="width: 100%;">
+                        <h:outputLabel for="estado" class="text-primary" value="Estado" />
+                        <h:selectOneMenu  class="form-control col-12" id="estado" value="#{usuarioMB.estadoSelecionado}">
+                            <f:selectItems value="#{usuarioMB.estados}" var="e" 
+                                   itemValue="#{e.id}"
+                                   itemLabel="#{e.nome}"/>
+                            <f:ajax execute="@this" render="form:cidade" listener="#{usuarioMB.loadCidades}" />
+                        </h:selectOneMenu >
+                    </h:panelGrid>
+                    <h:panelGrid columns="1"  style="width: 100%;">
+                        <h:outputLabel for="cidade" class="text-primary" value="Cidade"/>
+                        <h:selectOneMenu  styleClass="form-control col-12" id="cidade" value="#{usuarioMB.cidadeSelecionada}">
+                                 <f:selectItems value="#{usuarioMB.cidades}" var="c" 
+                                   itemValue="#{c.id}"
+                                   itemLabel="#{c.nome}"/>
+                        </h:selectOneMenu >        
+                    </h:panelGrid>
+
+                </h:panelGrid>            
+
+
+                <div class="form-group" style="padding: 20px;">
+                    <input type="button" class="btn bg-primary text-white" onclick="window.history.back()" value="Voltar" />
+                    <h:commandButton action="#{usuarioMB.cadastrar()}" class="btn bg-primary text-white" value="Cadastrar" />
+                </div>
+
+            </h:form>
+        </div>
+    </h:body>
+</html>

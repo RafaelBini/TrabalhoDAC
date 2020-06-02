@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>SIJOGA - Sistema Jurídico On-line para Grandes Administrações</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" 
+              crossorigin="anonymous" />
+        <link rel="stylesheet" href="resources/css/styles.css" />
+    </h:head>
+    <h:body>
+        <p:growl />
+        <h:form id="form">
+            <h:panelGrid styleClass="content" columns="1">
+            <h1>SIJOGA</h1>
+            <h6>Sistema Jurídico On-line para Grandes Administrações</h6>
+            
+
+                <h:outputLabel value="Usuário" for="login" />
+                <h:inputText style="width: 70%;" a:autofocus="true" id="login">
+                </h:inputText>
+
+                <h:outputLabel value="Senha" for="senha" />
+                <h:inputSecret style="width: 70%;" id="senha" value="minha">
+                </h:inputSecret>
+
+                <h:panelGrid columns="2" style="margin: auto;">
+                    <h:commandButton styleClass="btn bg-primary text-white" action="#{usuarioMB.goCadastrar}" immediate="true" value="Cadastrar" />
+                    <h:commandButton styleClass="btn bg-primary text-white" type="submit" value="Entrar" />
+                </h:panelGrid>               
+
+
+        </h:panelGrid> 
+       </h:form>
+    </h:body>
+</html>
+

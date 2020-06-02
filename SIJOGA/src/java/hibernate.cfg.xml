@@ -39,6 +39,7 @@ made subject to such option by the copyright holder.
 
 Contributor(s):
 -->
+
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
@@ -46,6 +47,9 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/SIJOGA</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">senha123</property>
-    <mapping class="beans.Usuario"/>
+    <mapping class="beans.Usuario"/> 
+    <mapping class="beans.Estado"/>
+    <mapping class="beans.Cidade"/>
   </session-factory>
 </hibernate-configuration>
+

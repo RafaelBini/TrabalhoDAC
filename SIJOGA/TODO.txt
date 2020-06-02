@@ -1,0 +1,15 @@
+
+-- Priameira parte
+
+1. Criar todas as tabelas
+2. Criar todos os beans
+
+-- Segunda parte
+
+1. Implementar Página de Login
+2. Implementar Páginas do Advogado
+3. Implementar Páginas do Juiz
+4. Implementar Páginas da Parte
+
+
+form:cidade: Erro de validação: o valor não é válido

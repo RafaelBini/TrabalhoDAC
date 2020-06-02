@@ -1,0 +1,217 @@
+:root {
+    /* Aussie color palette (https://flatuicolors.com/palette/au)*/
+    --beekeeper: #f6e58d;
+    --turbo: #f9ca24;
+    --spiced-nectarine: #ffbe76;
+    --quince-jelly: #f0932b;
+    --pink-glamour: #ff7979;
+    --carmine-pink: #eb4d4b;
+    --june-bud: #badc58;
+    --pure-apple: #6ab04c;
+    --coastal-breeze: #dff9fb;
+    --hint-of-ice-pack: #c7ecee;
+    --middle-blue: #7ed6df;
+    --greenland-green: #22a6b3;
+    --heliotrope: #e056fd;
+    --steel-pink: #be2edd;
+    --exodus-fruit: #686de0;
+    --blurple: #4834d4;
+    --deep-koamaru: #30336b;
+    --deep-cove: #130f40;
+    --soaring-eagle: #95afc0;
+    --wizard-grey: #535c68;
+
+    /* Aussie-Bootstrap "bridge" */
+    --primary: var(--exodus-fruit);
+    --primary-helper: var(--blurple);
+    --secondary: var(--wizard-grey);
+    --secondary-helper: var(--soaring-eagle);
+    --success: var(--pure-apple);
+    --success-helper: var(--june-bud);
+    --danger: var(--carmine-pink);
+    --danger-helper: var(--pink-glamour);
+    --warning: var(--turbo);
+    --warning-helper: var(--beekeeper);
+    --info: var(--greenland-green);
+    --info-helper: var(--middle-blue);
+    --light: var(--coastal-breeze);
+    --light-helper: var(--hint-of-ice-pack);
+    --dark: #0b0e12;
+    --dark-helper: #060709;
+    --white: #fcfcfc;
+    --white-helper: #fff;
+}
+
+/* Bootstrap recolor */
+
+.text-primary {
+    color: var(--primary) !important;
+}
+
+a.text-primary:hover, a.text-primary:focus {
+    color: var(--primary-helper) !important;
+}
+
+.text-secondary {
+    color: var(--secondary) !important;
+}
+
+a.text-secondary:hover, a.text-secondary:focus {
+    color: var(--secondary-helper) !important;
+}
+
+.text-success {
+    color: var(--success) !important;
+}
+
+a.text-success:hover, a.text-success:focus {
+    color: var(--success-helper) !important;
+}
+
+.text-info {
+    color: var(--info) !important;
+}
+
+a.text-info:hover, a.text-info:focus {
+    color: var(--info-helper) !important;
+}
+
+.text-warning {
+    color: var(--warning) !important;
+}
+
+a.text-warning:hover, a.text-warning:focus {
+    color: var(--warning-helper) !important;
+}
+
+.text-danger {
+    color: var(--danger) !important;
+}
+
+a.text-danger:hover, a.text-danger:focus {
+    color: var(--danger-helper) !important;
+}
+
+.text-light {
+    color: var(--light) !important;
+}
+
+a.text-light:hover, a.text-light:focus {
+    color: var(--light-helper) !important;
+}
+
+.text-dark {
+    color: var(--dark) !important;
+}
+
+a.text-dark:hover, a.text-dark:focus {
+    color: var(--dark-helper) !important;
+}
+
+.text-white {
+    color: var(--white) !important;
+}
+
+a.text-white:hover, a.text-white:focus {
+    color: var(--white-helper) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+
+a.bg-primary:hover, a.bg-primary:focus,
+button.bg-primary:hover,
+button.bg-primary:focus {
+    background-color: var(--primary-helper) !important;
+}
+
+.bg-secondary {
+    background-color: var(--secondary) !important;
+}
+
+a.bg-secondary:hover, a.bg-secondary:focus,
+button.bg-secondary:hover,
+button.bg-secondary:focus {
+    background-color: var(--secondary-helper) !important;
+}
+
+.bg-success {
+    background-color: var(--success) !important;
+}
+
+a.bg-success:hover, a.bg-success:focus,
+button.bg-success:hover,
+button.bg-success:focus {
+    background-color: var(--success-helper) !important;
+}
+
+.bg-info {
+    background-color: var(--info) !important;
+}
+
+a.bg-info:hover, a.bg-info:focus,
+button.bg-info:hover,
+button.bg-info:focus {
+    background-color: var(--info-helper) !important;
+}
+
+.bg-warning {
+    background-color: var(--warning) !important;
+}
+
+a.bg-warning:hover, a.bg-warning:focus,
+button.bg-warning:hover,
+button.bg-warning:focus {
+    background-color: var(--warning-helper) !important;
+}
+
+.bg-danger {
+    background-color: var(--danger) !important;
+}
+
+a.bg-danger:hover, a.bg-danger:focus,
+button.bg-danger:hover,
+button.bg-danger:focus {
+    background-color: var(--danger-helper) !important;
+}
+
+.bg-light {
+    background-color: var(--light) !important;
+}
+
+a.bg-light:hover, a.bg-light:focus,
+button.bg-light:hover,
+button.bg-light:focus {
+    background-color: var(--light-helper) !important;
+}
+
+.bg-dark {
+    background-color: var(--dark) !important;
+}
+
+a.bg-dark:hover, a.bg-dark:focus,
+button.bg-dark:hover,
+button.bg-dark:focus {
+    background-color: var(--dark-helper) !important;
+}
+
+.bg-white {
+    background-color: var(--white) !important;
+}
+
+a.bg-white:hover, a.bg-white:focus,
+button.bg-white:hover,
+button.bg-white:focus {
+    background-color: var(--white-helper) !important;
+}
+
+/* New color items */
+
+.bg-primary-h {
+    background-color: var(--primary-helper);
+}
+
+.text-dk {
+    color: var(--deep-koamaru);
+}
