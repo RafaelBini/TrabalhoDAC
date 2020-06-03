@@ -16,7 +16,7 @@ and open the template in the editor.
         
         <h:form rendered="#{loginMB.loggedUser.tipo == 'Advogado'}">     
             
-            <h:commandButton styleClass="btn btn-primary" value="Novo Processo" />
+            <h:commandButton styleClass="btn btn-primary" action="#{processoMB.goAddProcesso()}" value="Novo Processo" />
             <h:commandButton styleClass="btn btn-secondary" action="#{usuarioMB.goCadastrarParte()}" value="Novo Cliente" />
             
             

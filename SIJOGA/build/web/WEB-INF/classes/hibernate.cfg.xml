@@ -50,6 +50,7 @@ Contributor(s):
     <mapping class="beans.Usuario"/> 
     <mapping class="beans.Estado"/>
     <mapping class="beans.Cidade"/>
+    <mapping class="beans.Processo"/>
   </session-factory>
 </hibernate-configuration>
 

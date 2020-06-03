@@ -90,6 +90,11 @@ form {
     padding-bottom: 4px;
 }
 
+input {
+    margin-left: 3px !important;
+    margin-right: 3px !important;    
+}
+
 .esquerda{
     width: 80%;
     vertical-align: top;

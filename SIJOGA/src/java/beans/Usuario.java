@@ -5,14 +5,17 @@
  */
 package beans;
 
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -43,7 +46,11 @@ public class Usuario {
     private Long numero;
     private Cidade cidade;
     private Usuario advogado;
-
+    private List<Usuario> clientes;
+    private List<Processo> promovidaProcessos;    
+    private List<Processo> promoventeProcessos;
+    private List<Processo> juizProcessos;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
@@ -136,7 +143,7 @@ public class Usuario {
         this.login = login;
     }
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="advogado_id", updatable=true)    
     public Usuario getAdvogado() {
         return advogado;
@@ -145,6 +152,44 @@ public class Usuario {
     public void setAdvogado(Usuario advogado) {
         this.advogado = advogado;
     }
+
+    @OneToMany(mappedBy="advogado", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    public List<Usuario> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<Usuario> clientes) {
+        this.clientes = clientes;
+    }
+
+    @OneToMany(mappedBy="promovida", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    public List<Processo> getPromovidaProcessos() {
+        return promovidaProcessos;
+    }
+
+    public void setPromovidaProcessos(List<Processo> promovidaProcessos) {
+        this.promovidaProcessos = promovidaProcessos;
+    }
+
+    @OneToMany(mappedBy="promovente", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    public List<Processo> getPromoventeProcessos() {
+        return promoventeProcessos;
+    }
+
+    public void setPromoventeProcessos(List<Processo> promoventeProcessos) {
+        this.promoventeProcessos = promoventeProcessos;
+    }
+
+    @OneToMany(mappedBy="juiz", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    public List<Processo> getJuizProcessos() {
+        return juizProcessos;
+    }
+
+    public void setJuizProcessos(List<Processo> juizProcessos) {
+        this.juizProcessos = juizProcessos;
+    }
+
+
     
     
     

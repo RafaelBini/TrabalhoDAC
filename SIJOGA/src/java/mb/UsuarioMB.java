@@ -166,7 +166,7 @@ public class UsuarioMB implements Serializable{
         return "advogado";
     }
     
-    public String cadastrar(Usuario advogadoUser){
+    public String cadastrar(Usuario advogadoUser) throws Exception{
         try{
             // Valida o CPF
             if (!this.isCpfValido(this.usuario.getCpf())){
@@ -190,8 +190,11 @@ public class UsuarioMB implements Serializable{
             
             // Se é cadastro de Parte
             if ("Parte".equals(this.usuario.getTipo())){
+                // Recebe o adovgado
+                Usuario advog = (Usuario)session.get(Usuario.class, advogadoUser.getId());
+                
                 // Insere o advogado_id
-                this.usuario.setAdvogado(advogadoUser);
+                this.usuario.setAdvogado(advog);
             }            
 
             // Salva no bd
@@ -213,7 +216,7 @@ public class UsuarioMB implements Serializable{
             }
             
         }
-        catch(Exception hex){
+        catch(HibernateException hex){
 
             FacesMessage msg = new FacesMessage("Não foi possivel criar o usuário. Veja os erros sinalziados");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
