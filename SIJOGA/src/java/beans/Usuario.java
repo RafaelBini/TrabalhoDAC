@@ -5,6 +5,7 @@
  */
 package beans;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,8 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -39,6 +42,7 @@ public class Usuario {
     private String rua;
     private Long numero;
     private Cidade cidade;
+    private Usuario advogado;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,11 +54,13 @@ public class Usuario {
         this.id = id;
     }
 
+    @NotNull()
     public String getNome() {
         return nome;
     }
 
     @Column(unique = true)    
+    @NotNull()
     public String getCpf() {
         return cpf;
     }
@@ -75,6 +81,7 @@ public class Usuario {
         this.senha = senha;
     }
 
+    @NotNull()
     public String getTipo() {
         return tipo;
     }
@@ -120,6 +127,7 @@ public class Usuario {
     }
     
     @Column(unique = true)
+    @NotNull()
     public String getLogin() {
         return login;
     }
@@ -127,6 +135,17 @@ public class Usuario {
     public void setLogin(String login) {
         this.login = login;
     }
+
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="advogado_id", updatable=true)    
+    public Usuario getAdvogado() {
+        return advogado;
+    }
+
+    public void setAdvogado(Usuario advogado) {
+        this.advogado = advogado;
+    }
+    
     
     
     

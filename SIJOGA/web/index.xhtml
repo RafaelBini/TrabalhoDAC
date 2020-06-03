@@ -20,16 +20,17 @@
             
 
                 <h:outputLabel value="Usuário" for="login" />
-                <h:inputText style="width: 70%;" a:autofocus="true" id="login">
+                <h:inputText value="#{loginMB.login}" style="width: 70%;" required="true" requiredMessage="Insira um nume de usuário!" a:autofocus="true" id="login">
                 </h:inputText>
 
                 <h:outputLabel value="Senha" for="senha" />
-                <h:inputSecret style="width: 70%;" id="senha" value="minha">
+                <h:inputSecret value="#{loginMB.senha}" style="width: 70%;" required="true" requiredMessage="Insira uma senha!" id="senha">
                 </h:inputSecret>
-
-                <h:panelGrid columns="2" style="margin: auto;">
+                
+                <p:defaultCommand target="entrarBtn"/>
+                <h:panelGrid columns="2" style="margin: auto;">                    
                     <h:commandButton styleClass="btn bg-primary text-white" action="#{usuarioMB.goCadastrar}" immediate="true" value="Cadastrar" />
-                    <h:commandButton styleClass="btn bg-primary text-white" type="submit" value="Entrar" />
+                    <h:commandButton styleClass="btn bg-primary text-white" id="entrarBtn" action="#{loginMB.entrar()}" value="Entrar" />
                 </h:panelGrid>               
 
 

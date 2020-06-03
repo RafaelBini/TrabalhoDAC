@@ -12,4 +12,5 @@
 4. Implementar Páginas da Parte
 
 
+// Escrever sobre o Ajax no JSF (escopo)
 form:cidade: Erro de validação: o valor não é válido

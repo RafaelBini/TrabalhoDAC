@@ -47,6 +47,10 @@ public class UsuarioMB implements Serializable{
     
     @PostConstruct
     public void init(){
+        FacesMessage msg = new FacesMessage("Comecei o escopo!");
+        msg.setSeverity(FacesMessage.SEVERITY_INFO);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        
         // Inicializa o escopo
         conversation.begin();
         
@@ -114,17 +118,15 @@ public class UsuarioMB implements Serializable{
     }
     
     public void validaCpf(){
+        
+        this.cpfLabelMsg = "";
+                
         Session session = HibernateUtil.getSessionFactory().openSession();        
         session.beginTransaction();    
         
-        Query query;
-        
-
-        query = session.createQuery("FROM Usuario WHERE cpf = :cpf");            
-
-        
-        query.setString("cpf",this.usuario.getCpf());
-        
+        Query query;       
+        query = session.createQuery("FROM Usuario WHERE cpf = :cpf");                   
+        query.setString("cpf",this.usuario.getCpf());  
         
         List<Usuario> users = query.list();
         
@@ -137,10 +139,40 @@ public class UsuarioMB implements Serializable{
         
         session.getTransaction().commit();           
         session.close();     
+        
+        // Valida o CPF
+        if(!isCpfValido(this.usuario.getCpf())){
+            this.cpfLabelMsg = "CPF inválido";
+        }
     }
     
-    public String cadastrar(){
+    public String voltar(){
+        FacesMessage msg = new FacesMessage("Terminei o escopo!");
+        msg.setSeverity(FacesMessage.SEVERITY_INFO);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        
+        conversation.end();
+        
+        return "index";
+    }
+    
+    public String voltarAdvogado(){
+        FacesMessage msg = new FacesMessage("Terminei o escopo!");
+        msg.setSeverity(FacesMessage.SEVERITY_INFO);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        
+        conversation.end();
+        
+        return "advogado";
+    }
+    
+    public String cadastrar(Usuario advogadoUser){
         try{
+            // Valida o CPF
+            if (!this.isCpfValido(this.usuario.getCpf())){
+                throw new Exception("CPF inválido!");
+            }
+            
             Session session = HibernateUtil.getSessionFactory().openSession();        
             session.beginTransaction();    
 
@@ -154,7 +186,13 @@ public class UsuarioMB implements Serializable{
             String s= this.usuario.getSenha();
             MessageDigest m = MessageDigest.getInstance("MD5");
             m.update(s.getBytes(),0,s.length());
-            this.usuario.setSenha(new BigInteger(1,m.digest()).toString(16));       
+            this.usuario.setSenha(new BigInteger(1,m.digest()).toString(16));      
+            
+            // Se é cadastro de Parte
+            if ("Parte".equals(this.usuario.getTipo())){
+                // Insere o advogado_id
+                this.usuario.setAdvogado(advogadoUser);
+            }            
 
             // Salva no bd
             session.save(this.usuario);
@@ -168,7 +206,12 @@ public class UsuarioMB implements Serializable{
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
             FacesContext.getCurrentInstance().addMessage(null, msg);
             
-            return "index";
+            if ("Parte".equals(this.usuario.getTipo())){
+                return "advogado";
+            }else{
+                return "index";
+            }
+            
         }
         catch(Exception hex){
 
@@ -182,10 +225,15 @@ public class UsuarioMB implements Serializable{
         
     }
     
+    
     public String goCadastrar(){
         return "cadastro";
     }
 
+    public String goCadastrarParte(){
+        return "cadastroParte";
+    }
+    
     public Usuario getUsuario() {
         return usuario;
     }
@@ -205,6 +253,63 @@ public class UsuarioMB implements Serializable{
     public List<Cidade> getCidades() {
         return cidades;
     }
+    
+    public boolean isCpfValido(String strCpf) {  
+        
+        strCpf = strCpf.replace(".", "").replace("-", "");
+        
+        if (strCpf.equals("")) {  
+            return false;  
+        }  
+        int d1, d2;  
+        int digito1, digito2, resto;  
+        int digitoCPF;  
+        String nDigResult;  
+  
+        d1 = d2 = 0;  
+        digito1 = digito2 = resto = 0;  
+  
+        for (int nCount = 1; nCount < strCpf.length() - 1; nCount++) {  
+            digitoCPF = Integer.valueOf(strCpf.substring(nCount - 1, nCount)).intValue();  
+  
+            //multiplique a ultima casa por 2 a seguinte por 3 a seguinte por 4 e assim por diante.  
+            d1 = d1 + (11 - nCount) * digitoCPF;  
+  
+            //para o segundo digito repita o procedimento incluindo o primeiro digito calculado no passo anterior.  
+            d2 = d2 + (12 - nCount) * digitoCPF;  
+        }  
+  
+        //Primeiro resto da divisão por 11.  
+        resto = (d1 % 11);  
+  
+        //Se o resultado for 0 ou 1 o digito é 0 caso contrário o digito é 11 menos o resultado anterior.  
+        if (resto < 2) {  
+            digito1 = 0;  
+        } else {  
+            digito1 = 11 - resto;  
+        }  
+  
+        d2 += 2 * digito1;  
+  
+        //Segundo resto da divisão por 11.  
+        resto = (d2 % 11);  
+  
+        //Se o resultado for 0 ou 1 o digito é 0 caso contrário o digito é 11 menos o resultado anterior.  
+        if (resto < 2) {  
+            digito2 = 0;  
+        } else {  
+            digito2 = 11 - resto;  
+        }  
+  
+        //Digito verificador do CPF que está sendo validado.  
+        String nDigVerific = strCpf.substring(strCpf.length() - 2, strCpf.length());  
+  
+        //Concatenando o primeiro resto com o segundo.  
+        nDigResult = String.valueOf(digito1) + String.valueOf(digito2);  
+  
+        //comparar o digito verificador do cpf com o primeiro resto + o segundo resto.  
+        return nDigVerific.equals(nDigResult);  
+    }  
 
     public void setCidades(List<Cidade> cidades) {
         this.cidades = cidades;
@@ -240,9 +345,7 @@ public class UsuarioMB implements Serializable{
 
     public void setCpfLabelMsg(String cpfLabelMsg) {
         this.cpfLabelMsg = cpfLabelMsg;
-    }
-
-    
+    }  
 
     
 }

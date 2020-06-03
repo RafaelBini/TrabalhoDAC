@@ -29,14 +29,15 @@ and open the template in the editor.
                 <h:form id="form">
                 <div class="form-group">
                     <label class="text-primary" for="login">Usuário</label>
-                    <h:inputText id="login" class="form-control" a:autofocus="true" value="#{usuarioMB.usuario.login}">
+                    <h:inputText id="login" class="form-control" required="true" requiredMessage="Digite um nome de usuário" a:autofocus="true" value="#{usuarioMB.usuario.login}">
                         <f:ajax execute="@this" render="form:errorMessageTag" listener="#{usuarioMB.validaUser}" />
+                    
                     </h:inputText>
                     <h:outputLabel id="errorMessageTag" for="login" value="#{usuarioMB.loginLabelMsg}" style="color: red"/>
                 </div>
                 <div class="form-group">
                     <label class="text-primary" for="senha">Senha</label>
-                    <h:inputSecret id="senha" class="form-control"  value="#{usuarioMB.usuario.senha}" />
+                    <h:inputSecret id="senha" required="true"  requiredMessage="Digite uma senha" class="form-control"  value="#{usuarioMB.usuario.senha}" />
                 </div>
                 <div class="form-group">
                     <label for="tipo" class="text-primary col-4">Acesso de: </label>
@@ -48,28 +49,30 @@ and open the template in the editor.
                 <hr />
                 <div class="form-group">
                     <label class="text-primary" for="nome">Nome</label>
-                    <h:inputText class="form-control" id="nome"  value="#{usuarioMB.usuario.nome}"/>
+                    <h:inputText class="form-control" id="nome" required="true" requiredMessage="Digite um nome" value="#{usuarioMB.usuario.nome}"/>
                 </div>
                 <div class="form-group">
                     <label class="text-primary" for="cpf">CPF</label>
-                    <p:inputMask id="cpf" class="form-control" mask="999.999.999-99"  value="#{usuarioMB.usuario.cpf}">
+                    <p:inputMask id="cpf" required="true" requiredMessage="Digite um CPF" class="form-control" mask="999.999.999-99"  value="#{usuarioMB.usuario.cpf}">
                         <f:ajax execute="@this" render="form:cpfLabelMsg" listener="#{usuarioMB.validaCpf}" />
                     </p:inputMask>
                     <h:outputLabel id="cpfLabelMsg" for="cpf" value="#{usuarioMB.cpfLabelMsg}" style="color: red"/>
                 </div>
                 <div class="form-group">
                     <label for="email" class="text-primary">E-mail</label>
-                    <h:inputText id="email" class="form-control"  value="#{usuarioMB.usuario.email}"/>
+                    <h:inputText id="email" required="true" requiredMessage="Digite um e-mail" validatorMessage="Insira um email válido" class="form-control" value="#{usuarioMB.usuario.email}">
+                        <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                    </h:inputText>
                 </div>
                 <h:panelGrid columns="2" columnClasses="esquerda, direita">
 
                     <h:panelGrid columns="1"  style="width: 100%;">
                         <h:outputLabel for="rua" class="text-primary" value="Rua" />
-                        <h:inputText id="rua" style="width: 100%"  value="#{usuarioMB.usuario.rua}"/>
+                        <h:inputText id="rua" required="true" requiredMessage="Insira uma rua" style="width: 100%"  value="#{usuarioMB.usuario.rua}"/>
                     </h:panelGrid>
                     <h:panelGrid columns="1" style="width: 100%;">
                         <h:outputLabel for="numero" class="text-primary" value="Número"/>
-                        <h:inputText id="numero" style="width: 100%"  value="#{usuarioMB.usuario.numero}"/>      
+                        <h:inputText id="numero" required="true" requiredMessage="Insira um numero para o endereço" style="width: 100%"  value="#{usuarioMB.usuario.numero}"/>      
                     </h:panelGrid>       
 
 
@@ -99,8 +102,8 @@ and open the template in the editor.
 
 
                 <div class="form-group" style="padding: 20px;">
-                    <input type="button" class="btn bg-primary text-white" onclick="window.history.back()" value="Voltar" />
-                    <h:commandButton action="#{usuarioMB.cadastrar()}" class="btn bg-primary text-white" value="Cadastrar" />
+                    <h:commandButton class="btn bg-primary text-white" immediate="true" action="#{usuarioMB.voltar()}" value="Voltar" />
+                    <h:commandButton action="#{usuarioMB.cadastrar(null)}" class="btn bg-primary text-white" value="Cadastrar" />
                 </div>
 
             </h:form>
