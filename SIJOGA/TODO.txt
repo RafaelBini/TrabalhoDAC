@@ -1,15 +1,15 @@
 
--- Priameira parte
 
-1. Criar todas as tabelas
-2. Criar todos os beans
+- Implementar Páginas do Advogado
+	- Colocar filtro nos processos
+	- Colocar opção de anexar arquivo na criação de fase
+	- Colocar opção para Tirar PDF de consultas
 
--- Segunda parte
+- Implementar Páginas do Juiz
+- Implementar Páginas da Parte
 
-2. Implementar Páginas do Advogado
-3. Implementar Páginas do Juiz
-4. Implementar Páginas da Parte
 
 
 // Escrever sobre o Ajax no JSF (escopo)
 form:cidade: Erro de validação: o valor não é válido
+

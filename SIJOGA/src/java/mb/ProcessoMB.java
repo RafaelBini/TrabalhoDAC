@@ -15,6 +15,7 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,34 +29,18 @@ import util.HibernateUtil;
  */
 @Named(value="processoMB")
 @RequestScoped()
-public class ProcessoMB {
+public class ProcessoMB implements Serializable {
     private String clienteSelecionado;
     private String promovidaSelecionada;
-    private List<Usuario> promovidos;
+    private List<Usuario> promovidos;        
+
     
     @PostConstruct
     public void init(){   
-    
+        
         
     }
     
-    public List<Processo> getProcessosAdvogado(Usuario advogado){
-        List<Processo> procs;
-        
-        // Abre sessao
-        Session session = HibernateUtil.getSessionFactory().openSession();        
-        session.beginTransaction();   
-        
-        Query query = session.createQuery("FROM Processo p WHERE p.promovente.advogado.id = :id OR p.promovida.advogado.id = :id");
-        query.setLong("id", advogado.getId());
-        procs = query.list();
-        
-        // Fecha sessao
-        session.getTransaction().commit();           
-        session.close();    
-        
-        return procs;
-    }
     
     public String goAddProcesso(){
         return "novoProcesso";
@@ -171,7 +156,7 @@ public class ProcessoMB {
     public void setPromovidaSelecionada(String promovidaSelecionada) {
         this.promovidaSelecionada = promovidaSelecionada;
     }
-    
-    
+
+
     
 }

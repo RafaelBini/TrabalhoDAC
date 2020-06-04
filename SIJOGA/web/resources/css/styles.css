@@ -112,3 +112,9 @@ input {
     text-align: center;
     font-size: 35px;
 }
+
+.filtro {
+    background-color: #5f50ff !important;
+    color: white !important;
+    cursor: pointer;
+}
