@@ -74,3 +74,6 @@ select * from tb_cidade
 where id = 6
 
 insert into tb_usuario (login) values ('a')
+
+
+select * from tb_processo

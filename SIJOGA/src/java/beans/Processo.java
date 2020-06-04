@@ -5,13 +5,16 @@
  */
 package beans;
 
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -29,6 +32,7 @@ public class Processo {
     private Usuario juiz;
     private Usuario promovida;
     private Usuario promovente;
+    private List<Fase> fases;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,6 +89,16 @@ public class Processo {
     public void setPromovente(Usuario promovente) {
         this.promovente = promovente;
     }
+
+    @OneToMany(mappedBy="processo", cascade=CascadeType.ALL, fetch=FetchType.EAGER)   
+    public List<Fase> getFases() {
+        return fases;
+    }
+
+    public void setFases(List<Fase> fases) {
+        this.fases = fases;
+    }
+    
     
     
 }

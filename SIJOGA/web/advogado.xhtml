@@ -16,10 +16,48 @@ and open the template in the editor.
         
         <h:form rendered="#{loginMB.loggedUser.tipo == 'Advogado'}">     
             
-            <h:commandButton styleClass="btn btn-primary" action="#{processoMB.goAddProcesso()}" value="Novo Processo" />
-            <h:commandButton styleClass="btn btn-secondary" action="#{usuarioMB.goCadastrarParte()}" value="Novo Cliente" />
             
+            <h:dataTable value="#{processoMB.getProcessosAdvogado(loginMB.loggedUser)}"
+                         var="p"
+                         style="z-index: 0; left: 0px; top: 0px; position: absolute; width: 100%; text-align: center; font-size: 16px"
+                         styleClass="table">
+                <f:facet name="header" >
+                    <h2><h:outputText value="Meus Processos" /></h2>
+                </f:facet>
+                <p:column>
+                   <f:facet name="header" >
+                       <h:outputText value="ID" />
+                   </f:facet>
+                    #{p.id}
+               </p:column>
+                <p:column>
+                   <f:facet name="header" >
+                       <h:outputText value="Minha Parte" />
+                   </f:facet>
+                   #{p.promovente.advogado.id == loginMB.loggedUser.id ? p.promovente.nome.concat(" (Promovente)") : p.promovida.nome.concat(" (Promovida)")}
+               </p:column>
+               <p:column>
+                   <f:facet name="header" >
+                       <h:outputText value="Parte Oposta" />
+                   </f:facet>
+                   #{p.promovente.advogado.id == loginMB.loggedUser.id ? p.promovida.nome.concat(" (Promovida)") : p.promovente.nome.concat(" (Promovente)") }
+               </p:column>
+               <p:column>
+                   <f:facet name="header" >
+                       <h:outputText value="Status" />
+                   </f:facet>
+                   #{p.status}
+               </p:column>
+               <p:column>
+                   <f:facet name="header" >
+                       <h:outputText value="Ações" />
+                   </f:facet>
+                   <h:commandButton action="#{faseMB.goFases(p)}" styleClass="btn btn-primary" value="Ver Fases" />
+               </p:column>
+            </h:dataTable>
             
+            <h:commandButton style="z-index: 1; position:relative;" styleClass="btn btn-primary" action="#{processoMB.goAddProcesso()}" value="Novo Processo" />
+            <h:commandButton style="z-index: 1; position:relative;" styleClass="btn btn-secondary" action="#{usuarioMB.goCadastrarParte()}" value="Novo Cliente" />
 
         </h:form>     
         

@@ -51,6 +51,7 @@ Contributor(s):
     <mapping class="beans.Estado"/>
     <mapping class="beans.Cidade"/>
     <mapping class="beans.Processo"/>
+    <mapping class="beans.Fase"/>
   </session-factory>
 </hibernate-configuration>
 

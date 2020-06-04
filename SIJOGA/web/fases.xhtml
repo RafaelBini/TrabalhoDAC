@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+        
+    
+    <ui:define name="corpo" >
+        
+        <h:panelGrid columns="1" style="width: 100%; max-height: 100%;">
+
+            <h:form rendered="#{faseMB.processo != null}">     
+
+
+
+                <h:panelGrid columns="1" styleClass="table" style="width: 100%;">
+
+                        <h:outputText value="Juiz: #{faseMB.processo.juiz.nome}" />
+                        <h:outputText value="Promovente: #{faseMB.processo.promovente.nome} (Adv. #{faseMB.processo.promovente.advogado.nome})" />
+                        <h:outputText value="Promovida: #{faseMB.processo.promovida.nome} (Adv. #{faseMB.processo.promovida.advogado.nome})" />
+
+                </h:panelGrid>
+
+
+                <h:dataTable value="#{faseMB.processo.fases}"
+                             var="f"
+                             style="width: 100%; text-align: center; font-size: 16px"
+                             styleClass="table">
+                    <p:column>
+                       <f:facet name="header" >
+                           <h:outputText value="Fase" />
+                       </f:facet>
+                        #{faseMB.processo.fases.indexOf(f) + 1}
+                   </p:column>
+                    <p:column>
+                       <f:facet name="header" >
+                           <h:outputText value="Criador" />
+                       </f:facet>
+                       #{f.criador.nome}
+                   </p:column>
+                   <p:column>
+                       <f:facet name="header" >
+                           <h:outputText value="Data" />
+                       </f:facet>
+                       #{f.dtCriacao}
+                   </p:column>
+                   <p:column>
+                       <f:facet name="header" >
+                           <h:outputText value="Título" />
+                       </f:facet>
+                       #{f.titulo}
+                   </p:column>
+                   <p:column>
+                       <f:facet name="header" >
+                           <h:outputText value="Descrição" />
+                       </f:facet>
+                       #{f.descricao}
+                   </p:column>
+                   <p:column>
+                       <f:facet name="header" >
+                           <h:outputText value="Status" />
+                       </f:facet>
+                       #{f.tipo}
+                   </p:column>
+
+                </h:dataTable>
+
+                <h:panelGrid columns="2" style="margin: auto;">
+                    <h:commandButton action="#{faseMB.backHome(loginMB.loggedUser)}" styleClass="btn btn-secondary" value="Voltar" />
+                    <h:commandButton rendered="#{faseMB.podeCriarFase()}" action="#{faseMB.goNovaFase()}" styleClass="btn btn-primary"  value="Nova Fase" />
+                </h:panelGrid>
+
+
+            </h:form>     
+        
+        
+            <h:panelGrid rendered="#{faseMB.processo == null}" columns="1" style="margin: auto; margin-top: 50px; text-align: center;">
+                <h:outputText  value="Você precisa selecionar um processo para acessar essa página" />
+                <h:link  outcome="index" >Página Inicial</h:link>
+            </h:panelGrid>
+        
+        </h:panelGrid>
+        
+    </ui:define>
+    
+</ui:composition>

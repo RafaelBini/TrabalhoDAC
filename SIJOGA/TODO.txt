@@ -6,7 +6,6 @@
 
 -- Segunda parte
 
-1. Implementar Página de Login
 2. Implementar Páginas do Advogado
 3. Implementar Páginas do Juiz
 4. Implementar Páginas da Parte

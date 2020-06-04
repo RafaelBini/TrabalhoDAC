@@ -32,11 +32,29 @@ public class ProcessoMB {
     private String clienteSelecionado;
     private String promovidaSelecionada;
     private List<Usuario> promovidos;
-      
     
     @PostConstruct
     public void init(){   
+    
         
+    }
+    
+    public List<Processo> getProcessosAdvogado(Usuario advogado){
+        List<Processo> procs;
+        
+        // Abre sessao
+        Session session = HibernateUtil.getSessionFactory().openSession();        
+        session.beginTransaction();   
+        
+        Query query = session.createQuery("FROM Processo p WHERE p.promovente.advogado.id = :id OR p.promovida.advogado.id = :id");
+        query.setLong("id", advogado.getId());
+        procs = query.list();
+        
+        // Fecha sessao
+        session.getTransaction().commit();           
+        session.close();    
+        
+        return procs;
     }
     
     public String goAddProcesso(){

@@ -50,6 +50,7 @@ public class Usuario {
     private List<Processo> promovidaProcessos;    
     private List<Processo> promoventeProcessos;
     private List<Processo> juizProcessos;
+    private List<Fase> fasesCriadas;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -187,6 +188,15 @@ public class Usuario {
 
     public void setJuizProcessos(List<Processo> juizProcessos) {
         this.juizProcessos = juizProcessos;
+    }
+
+     @OneToMany(mappedBy="criador", cascade=CascadeType.ALL, fetch=FetchType.EAGER)   
+    public List<Fase> getFasesCriadas() {
+        return fasesCriadas;
+    }
+
+    public void setFasesCriadas(List<Fase> fasesCriadas) {
+        this.fasesCriadas = fasesCriadas;
     }
 
 
