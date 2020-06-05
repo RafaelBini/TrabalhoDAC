@@ -57,7 +57,7 @@ create table tb_fase (
 	caminho_arquivo varchar(512),
 	tipo varchar(256),
 	resposta varchar(256),
-	jutificativa_resposta varchar(512),
+	justificativa_resposta varchar(512),
 	constraint pkFase primary key (id),
 	constraint fkFaseProcesso foreign key (processo_id) references tb_processo(id),
 	constraint fkFaseCriador foreign key (criador_id) references tb_usuario(id)
@@ -77,3 +77,6 @@ insert into tb_usuario (login) values ('a')
 
 
 select * from tb_processo
+
+select * from tb_fase
+

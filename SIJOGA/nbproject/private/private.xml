@@ -3,14 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/web/resources/css/styles.css</file>
-            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/src/java/beans/Estado.java</file>
-            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/web/index.xhtml</file>
-            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/web/cadastro.xhtml</file>
-            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/src/java/beans/Usuario.java</file>
-            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/src/java/util/HibernateUtil.java</file>
-            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/src/java/mb/UsuarioMB.java</file>
-            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/src/java/beans/Cidade.java</file>
+            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/src/java/mb/LoginMB.java</file>
+            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/web/advogado.xhtml</file>
+            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/src/java/mb/ProcessoMB.java</file>
+            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/src/java/mb/FiltroMB.java</file>
+            <file>file:/C:/Users/rfabini/Google%20Drive/MyUniversity/TADS/5%20Periodo/DAC/Trabalho/SIJOGA/src/java/mb/FaseMB.java</file>
         </group>
     </open-files>
 </project-private>

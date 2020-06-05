@@ -1,7 +1,6 @@
 
 
 - Implementar Páginas do Advogado
-	- Colocar filtro nos processos
 	- Colocar opção de anexar arquivo na criação de fase
 	- Colocar opção para Tirar PDF de consultas
 

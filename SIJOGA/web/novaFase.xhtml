@@ -18,7 +18,7 @@ and open the template in the editor.
             Nova Fase
         </div>
         <div class="content">
-            <h:form id="form" rendered="#{loginMB.loggedUser.tipo == 'Advogado'}">     
+            <h:form id="form" rendered="#{loginMB.loggedUser.tipo == 'Advogado'}" enctype="multipart/form-data">     
                 
                 <h:panelGrid columns="1" styleClass="table">
                     
@@ -27,13 +27,15 @@ and open the template in the editor.
 
                     <h:outputLabel class="text-primary" for="descricao" value="Descrição" />
                     <h:inputTextarea cols="30" rows="2" id="descricao" class="form-control" required="true" requiredMessage="Digite uma descrição" a:autofocus="true" value="#{faseMB.novaFase.descricao}" />
-                    
+                      
+                    <p:fileUpload id="arquivo" class="btn btn-primary" value="#{faseMB.file}" mode="simple"/>                  
 
                     <h:outputLabel for="tipo" class="text-primary" value="Tipo" />
                     <h:selectOneMenu  class="form-control col-12" id="tipo" value="#{faseMB.novaFase.tipo}">
                         <f:selectItem itemValue="Informativa" />
                         <f:selectItem itemValue="Deliberativa" />
-                    </h:selectOneMenu >      
+                    </h:selectOneMenu >                         
+
 
                     <h:panelGrid class="form-group" columns="2" style="margin: auto;">
                        <h:commandButton class="btn btn-secondary" immediate="true" action="#{faseMB.goFases(faseMB.processo)}" value="Voltar" />

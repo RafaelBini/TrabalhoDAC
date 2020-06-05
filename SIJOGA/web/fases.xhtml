@@ -69,6 +69,14 @@ and open the template in the editor.
                        </f:facet>
                        #{f.tipo}
                    </p:column>
+                   <p:column>
+                       <f:facet name="header" >
+                           <h:outputText value="Arquivo" />
+                       </f:facet>
+                       <p:commandButton rendered="#{f.caminhoArquivo != null}" value="Baixar" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                           <p:fileDownload value="#{faseMB.getFile(f.caminhoArquivo)}" />
+                       </p:commandButton>
+                   </p:column>
 
                 </h:dataTable>
 
