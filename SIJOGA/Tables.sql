@@ -36,6 +36,7 @@ create table tb_usuario (
 
 create table tb_processo (
 	id serial,
+	dt_criacao date,
 	status varchar (256),
 	vencedor varchar (256),
 	juiz_id int,

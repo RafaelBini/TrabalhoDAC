@@ -9,6 +9,7 @@ import beans.Cidade;
 import beans.Processo;
 import beans.Usuario;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
@@ -41,6 +42,9 @@ public class ProcessoMB implements Serializable {
         
     }
     
+    public String goRelatorios(){
+        return "relatorios";
+    }
     
     public String goAddProcesso(){
         return "novoProcesso";
@@ -108,6 +112,9 @@ public class ProcessoMB implements Serializable {
         // Instancia um novo processo
         Processo processo = new Processo();
         
+        // Recebe o dia de hj na criacao
+        processo.setDtCriacao(new Date());
+        
         // Recebe juiz com menos processos
         Query queryJuiz;      
         queryJuiz = session.createQuery("SELECT u, COUNT(p) FROM Usuario u LEFT JOIN u.juizProcessos p WHERE u.tipo = 'Juíz' GROUP BY u.id ORDER BY COUNT(p) DESC");                    
@@ -156,6 +163,8 @@ public class ProcessoMB implements Serializable {
     public void setPromovidaSelecionada(String promovidaSelecionada) {
         this.promovidaSelecionada = promovidaSelecionada;
     }
+
+
 
 
     

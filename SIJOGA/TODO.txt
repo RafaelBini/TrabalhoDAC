@@ -1,8 +1,7 @@
 
 
 - Implementar Páginas do Advogado
-	- Colocar opção de anexar arquivo na criação de fase
-	- Colocar opção para Tirar PDF de consultas
+	- Revisar os relatórios com mais informações colocadas
 
 - Implementar Páginas do Juiz
 - Implementar Páginas da Parte
@@ -11,4 +10,8 @@
 
 // Escrever sobre o Ajax no JSF (escopo)
 form:cidade: Erro de validação: o valor não é válido
+
+.\resources\img\anexos\1591357902328snake.xlsm (O sistema não pode encontrar o caminho especificado)
+
+
 

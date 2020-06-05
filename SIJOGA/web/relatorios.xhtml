@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+        
+    
+    <ui:define name="corpo" >
+        <div class="titulo">
+            Gerar Relatório
+        </div>
+        <div class="content">
+            <h:form rendered="#{loginMB.loggedUser.tipo == 'Advogado'}">     
+                
+                
+                <h:panelGrid columns="1"  style="margin: auto; width: 100%" >
+                    
+                    <h:selectOneMenu  class="form-control" id="tipo" value="#{relatorioMB.tipo}">
+                        <f:selectItem itemValue="Processos Abertos" />
+                        <f:selectItem itemValue="Processos Encerrados" />
+                        <f:ajax execute="@this" render="@all" listener="#{relatorioMB.changeTipo()}" />
+                    </h:selectOneMenu >                          
+
+                    <h:panelGrid  id="datas" rendered="#{relatorioMB.isAberto}" class="form-group" columns="2" style="margin: auto; width: 100%">  
+                        <h:panelGrid columns="1">
+                            <h:outputLabel  value="Inicio" />
+                            <p:calendar value="#{relatorioMB.data1}" />
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <h:outputLabel  value="Fim" />
+                            <p:calendar value="#{relatorioMB.data2}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+
+                    <h:panelGrid class="form-group" columns="2" style="margin: auto;">
+                        <h:commandButton class="btn btn-secondary" immediate="true" action="#{loginMB.backHome()}" value="Voltar" />
+                       <h:commandButton class="btn bg-primary text-white" action="#{relatorioMB.gerarRelatorio()}" value="Baixar" />
+                   </h:panelGrid>
+                
+                </h:panelGrid>
+
+            </h:form>     
+        </div>
+        
+        <h:panelGrid rendered="#{loginMB.loggedUser.tipo != 'Advogado'}" columns="1" style="margin: auto; margin-top: 50px; text-align: center;">
+            <h:outputText  value="Você precisa estar logado como Advogado para acessar esta página" />
+            <h:link  outcome="index" >Faça LOGIN aqui</h:link>
+        </h:panelGrid>
+        
+    </ui:define>
+    
+</ui:composition>

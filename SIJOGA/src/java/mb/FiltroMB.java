@@ -98,6 +98,33 @@ public class FiltroMB implements Serializable {
         session.getTransaction().commit();           
         session.close();          
     }
+    
+    public String getResultado(Processo p){
+         // Recebe o usuario logado
+        FacesContext context = FacesContext.getCurrentInstance();
+        Usuario advogado = (Usuario) context.getApplication().getExpressionFactory()
+        .createValueExpression(context.getELContext(), "#{loginMB.loggedUser}", Usuario.class)
+        .getValue(context.getELContext());       
+        
+        // Se venci
+        if ((p.getPromovente().getAdvogado().getId() == advogado.getId() 
+                && "Promovente".equals(p.getVencedor())) 
+                || (p.getPromovida().getAdvogado().getId() == advogado.getId() 
+                && "Promovido".equals(p.getVencedor()))){
+            
+            return "Ganhei";
+            
+        }
+        else if ((p.getPromovente().getAdvogado().getId() == advogado.getId() 
+                && "Promovido".equals(p.getVencedor())) 
+                || (p.getPromovida().getAdvogado().getId() == advogado.getId() 
+                && "Promovente".equals(p.getVencedor()))){
+            return "Perdi";
+        }
+        
+        return "-";
+        
+    }
 
     public String getFiltroStatus() {
         return filtroStatus;

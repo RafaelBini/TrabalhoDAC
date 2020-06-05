@@ -20,9 +20,11 @@ import java.io.Serializable;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -148,7 +150,9 @@ public class FaseMB implements Serializable {
         }
         
         // Recebe a data de criação
-        this.novaFase.setDtCriacao(new Date());
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/Sao_Paulo"));
+        Date hoje = cal.getTime();
+        this.novaFase.setDtCriacao(hoje);
         
         // Recebe o criador
         Usuario c = (Usuario)session.get(Usuario.class, criador.getId());

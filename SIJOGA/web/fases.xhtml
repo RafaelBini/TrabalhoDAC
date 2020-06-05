@@ -49,7 +49,9 @@ and open the template in the editor.
                        <f:facet name="header" >
                            <h:outputText value="Data" />
                        </f:facet>
-                       #{f.dtCriacao}
+                        <h:outputText value="#{f.dtCriacao}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>    
                    </p:column>
                    <p:column>
                        <f:facet name="header" >

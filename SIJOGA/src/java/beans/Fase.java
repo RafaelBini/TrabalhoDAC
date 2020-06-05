@@ -68,7 +68,7 @@ public class Fase {
     }
 
     @Column(name="dt_criacao")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getDtCriacao() {
         return dtCriacao;
     }

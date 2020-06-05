@@ -105,6 +105,20 @@ public class LoginMB implements Serializable{
         
         return null;
     }
+    
+    public String backHome(){        
+        
+        if ("Advogado".equals(loggedUser.getTipo())){
+            return "advogado";
+        }
+        else if ("Juíz".equals(loggedUser.getTipo())){
+            return "juiz";
+        }
+        else if ("Parte".equals(loggedUser.getTipo())){
+            return "parte";
+        }
+        return null;
+    }   
 
     public String sair(){
         
