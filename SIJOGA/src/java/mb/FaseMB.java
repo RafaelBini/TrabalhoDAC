@@ -51,6 +51,11 @@ public class FaseMB implements Serializable {
     private Processo processo;    
     private Fase novaFase;
     private UploadedFile file;
+    private Fase faseEscolhida;
+    private String resposta;
+    private String justificativa;
+    private String parecerFinal;
+    private String vencedor;
     
     @Inject
     private Conversation conversation;
@@ -62,6 +67,91 @@ public class FaseMB implements Serializable {
         this.novaFase = new Fase();
         this.novaFase.setTipo("Informativa");
         
+    }
+    
+    public String goDeliberar(Fase umaFase){
+        this.faseEscolhida = umaFase;
+        return "deliberar";
+    }
+    
+    public Fase getUltimaFase (Processo p){
+        Fase f;
+        
+        // Abre sessao Hibernate
+        Session session = HibernateUtil.getSessionFactory().openSession();        
+        session.beginTransaction(); 
+        
+        Query query = session.createQuery("FROM Fase a WHERE a.dtCriacao = (SELECT MAX(b.dtCriacao) FROM Fase b WHERE b.processo.id = :id) AND a.processo.id = :id");
+        query.setInteger("id", p.getId());
+        f = (Fase)query.list().get(0);
+        
+        // Fecha sessao hiber
+        session.getTransaction().commit();           
+        session.close();    
+        
+        return f;
+    }
+    
+    public String responder(){
+        // Abre sessao Hibernate
+        Session session = HibernateUtil.getSessionFactory().openSession();        
+        session.beginTransaction(); 
+        
+        // Aceito
+        if ("Aceito".equals(this.resposta)){            
+            // Atualiza o processo para aberto
+            Processo p = (Processo)session.get(Processo.class, this.faseEscolhida.getProcesso().getId());
+            p.setStatus("Aberto");
+            session.save(p);
+            
+            // Atualiza a fase com uma resposta
+            Fase f = (Fase)session.get(Fase.class, this.faseEscolhida.getId());
+            f.setResposta("Pedido Aceito");
+            f.setJustificativaResposta("-");
+            session.save(f);
+            
+        }
+        // Negado        
+        else if("Negado".equals(this.resposta)){
+             // Atualiza o processo para aberto
+            Processo p = (Processo)session.get(Processo.class, this.faseEscolhida.getProcesso().getId());
+            p.setStatus("Aberto");
+            session.save(p);
+            
+            // Atualiza a fase com uma resposta
+            Fase f = (Fase)session.get(Fase.class, this.faseEscolhida.getId());
+            f.setResposta("Pedido Negado");
+            f.setJustificativaResposta(this.justificativa);
+            session.save(f);           
+        }
+        // Intimado
+        else if("Intimado".equals(this.resposta)){
+            
+        }
+        // Encerrado
+        else if("Encerrado".equals(this.resposta)){
+            // Atualiza o processo para encerrado e insere um vencedor
+            Processo p = (Processo)session.get(Processo.class, this.faseEscolhida.getProcesso().getId());
+            p.setStatus("Encerrado");
+            p.setVencedor(this.vencedor);
+            session.save(p);
+            
+            // Atualiza a fase com um parecer final
+            Fase f = (Fase)session.get(Fase.class, this.faseEscolhida.getId());
+            f.setResposta("Processo Encerrado");
+            f.setJustificativaResposta(this.parecerFinal);
+            session.save(f);             
+        }
+        
+        // Fecha sessao hiber
+        session.getTransaction().commit();           
+        session.close();   
+        
+        // Finaliza escopo
+        conversation.end();
+        
+        // Volta pra pagina de processos
+        return "juiz";
     }
     
     public String goFases(Processo p){
@@ -242,6 +332,46 @@ public class FaseMB implements Serializable {
 
     public void setConversation(Conversation conversation) {
         this.conversation = conversation;
+    }
+
+    public Fase getFaseEscolhida() {
+        return faseEscolhida;
+    }
+
+    public void setFaseEscolhida(Fase faseEscolhida) {
+        this.faseEscolhida = faseEscolhida;
+    }
+
+    public String getResposta() {
+        return resposta;
+    }
+
+    public void setResposta(String resposta) {
+        this.resposta = resposta;
+    }
+
+    public String getJustificativa() {
+        return justificativa;
+    }
+
+    public void setJustificativa(String justificativa) {
+        this.justificativa = justificativa;
+    }
+
+    public String getParecerFinal() {
+        return parecerFinal;
+    }
+
+    public void setParecerFinal(String parecerFinal) {
+        this.parecerFinal = parecerFinal;
+    }
+
+    public String getVencedor() {
+        return vencedor;
+    }
+
+    public void setVencedor(String vencedor) {
+        this.vencedor = vencedor;
     }
     
     

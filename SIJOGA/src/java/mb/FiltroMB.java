@@ -45,54 +45,67 @@ public class FiltroMB implements Serializable {
     public void loadProcessos(){
          // Recebe o usuario logado
         FacesContext context = FacesContext.getCurrentInstance();
-        Usuario advogado = (Usuario) context.getApplication().getExpressionFactory()
+        Usuario loggedUser = (Usuario) context.getApplication().getExpressionFactory()
         .createValueExpression(context.getELContext(), "#{loginMB.loggedUser}", Usuario.class)
         .getValue(context.getELContext());       
-        
+                  
+                
         // Abre sessao
         Session session = HibernateUtil.getSessionFactory().openSession();        
         session.beginTransaction();   
         
-        // Inicializa os filtros
-        String fs = "";
-        String fa = "";
-        String fr = "";
         
-        // Filtra Status
-        if (!"Todos".equals(this.filtroStatus)){
-            if ("Aberto".equals(this.filtroStatus)){
-                fs = " AND p.status != 'Encerrado' ";
-            }
-            else if ("Encerrado".equals(this.filtroStatus)){
-                fs = " AND p.status = 'Encerrado' ";
-            }            
+        // Se é juiz,
+        if ("Juíz".equals(loggedUser.getTipo())){
+            // Recebe todos os processos
+            Query query = session.createQuery("FROM Processo p WHERE p.juiz.id = :id ORDER BY p.id");
+            query.setLong("id", loggedUser.getId());
+            this.processos = query.list();            
         }
-        
-        // Filtra Atuação
-        if (!"Todos".equals(this.filtroAtuacao)){
-            if ("Promovente".equals(this.filtroAtuacao)){
-                fa = " AND p.promovente.advogado.id = :id ";
+        // Se é adovogado,
+        else if ("Advogado".equals(loggedUser.getTipo())){
+
+            // Inicializa os filtros
+            String fs = "";
+            String fa = "";
+            String fr = "";
+
+            // Filtra Status
+            if (!"Todos".equals(this.filtroStatus)){
+                if ("Aberto".equals(this.filtroStatus)){
+                    fs = " AND p.status != 'Encerrado' ";
+                }
+                else if ("Encerrado".equals(this.filtroStatus)){
+                    fs = " AND p.status = 'Encerrado' ";
+                }            
             }
-            else if ("Promovido".equals(this.filtroAtuacao)){
-                fa = " AND p.promovida.advogado.id = :id ";
-            }            
+
+            // Filtra Atuação
+            if (!"Todos".equals(this.filtroAtuacao)){
+                if ("Promovente".equals(this.filtroAtuacao)){
+                    fa = " AND p.promovente.advogado.id = :id ";
+                }
+                else if ("Promovido".equals(this.filtroAtuacao)){
+                    fa = " AND p.promovida.advogado.id = :id ";
+                }            
+            }
+
+            // Filtra Resultado
+            if (!"Todos".equals(this.filtroResultado)){
+                if ("Ganhei".equals(this.filtroResultado)){
+                    fr = " AND ((p.promovente.advogado.id = :id AND p.vencedor = 'Promovente') OR (p.promovida.advogado.id = :id AND p.vencedor = 'Promovido')) ";
+                }
+                else if ("Perdi".equals(this.filtroResultado)){
+                    fr = " AND ((p.promovente.advogado.id = :id AND p.vencedor = 'Promovido') OR (p.promovida.advogado.id = :id AND p.vencedor = 'Promovente')) ";
+                }            
+            }               
+
+            // Recebe todos os processos
+            Query query = session.createQuery("FROM Processo p WHERE (p.promovente.advogado.id = :id OR p.promovida.advogado.id = :id) " + fs + fa + fr + " ORDER BY p.id");
+            query.setLong("id", loggedUser.getId());
+            this.processos = query.list();
+        
         }
-        
-        // Filtra Resultado
-        if (!"Todos".equals(this.filtroResultado)){
-            if ("Ganhei".equals(this.filtroResultado)){
-                fr = " AND ((p.promovente.advogado.id = :id AND p.vencedor = 'Promovente') OR (p.promovida.advogado.id = :id AND p.vencedor = 'Promovido')) ";
-            }
-            else if ("Perdi".equals(this.filtroResultado)){
-                fr = " AND ((p.promovente.advogado.id = :id AND p.vencedor = 'Promovido') OR (p.promovida.advogado.id = :id AND p.vencedor = 'Promovente')) ";
-            }            
-        }               
-        
-        // Recebe todos os processos
-        Query query = session.createQuery("FROM Processo p WHERE (p.promovente.advogado.id = :id OR p.promovida.advogado.id = :id) " + fs + fa + fr);
-        query.setLong("id", advogado.getId());
-        this.processos = query.list();
-        
         
         // Fecha sessao
         session.getTransaction().commit();           

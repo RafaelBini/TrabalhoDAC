@@ -79,12 +79,8 @@ public class LoginMB implements Serializable{
             
             // Se é Juiz,
             if ("Juíz".equals(users.get(0).getTipo())){
-                // Entra na tela do Juíz
-                FacesMessage msg = new FacesMessage("Tela do Juíz!");
-                msg.setSeverity(FacesMessage.SEVERITY_INFO);
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-                
-                return null;
+                // Entra na tela do Juiz
+                return "juiz";
             }
             // Se é Advogado,
             else if ("Advogado".equals(users.get(0).getTipo())){

@@ -1,9 +1,11 @@
 
 
 - Implementar Páginas do Advogado
-	- Revisar os relatórios com mais informações colocadas
+	
 
 - Implementar Páginas do Juiz
+	- Adiconar opção de solicitar intimação
+
 - Implementar Páginas da Parte
 
 

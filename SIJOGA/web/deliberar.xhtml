@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+        
+    
+    <ui:define name="corpo" >
+        <div class="titulo">
+            Deliberar
+        </div>
+        <div class="content">
+            <h:form id="form" rendered="#{loginMB.loggedUser.tipo == 'Juíz'}">     
+                
+                <h:panelGrid columns="1" style="width: 100%;">
+                    
+                    <h:outputLabel class="text-primary" for="titulo" value="Título" />                        
+                    <h:inputText id="titulo" disabled="true" class="form-control" value="#{faseMB.faseEscolhida.titulo}" />
+
+                    <h:outputLabel class="text-primary" for="descricao" value="Descrição" />
+                    <h:inputTextarea disabled="true" cols="30" rows="2" id="descricao" class="form-control" required="true" requiredMessage="Digite uma descrição" value="#{faseMB.faseEscolhida.descricao}" />
+
+                    <h:outputLabel for="tipo" class="text-primary" value="Resposta" />
+                    <h:selectOneMenu  class="form-control col-12" id="tipo" value="#{faseMB.resposta}">
+                        <f:selectItem itemValue="Aceito" itemLabel="Pedido Aceito" />
+                        <f:selectItem itemValue="Negado" itemLabel="Pedido Negado"/>
+                        <f:selectItem itemValue="Intimado" itemLabel="Intimação" />
+                        <f:selectItem itemValue="Encerrado" itemLabel="Encerrar Processo" />
+                        <f:ajax execute="@this" render="form:painel" />
+                    </h:selectOneMenu >      
+                    
+                    <h:panelGroup id="painel">
+                        <h:panelGroup rendered="#{faseMB.resposta == 'Negado'}" >
+                            <h:outputLabel class="text-primary" for="justificativa" value="Justificativa" />
+                            <h:inputTextarea cols="30" rows="2" id="justificativa" class="form-control" required="true" requiredMessage="Digite uma justificativa" value="#{faseMB.justificativa}" />
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{faseMB.resposta == 'Intimado'}" >
+                            <h:outputLabel for="oficial" class="text-primary" value="Oficial de Justiça" />
+                            <h:selectOneMenu  class="form-control col-12" id="oficial">
+                                <f:selectItem itemValue="Oficial 1" />
+                                <f:selectItem itemValue="Oficial 2" />
+                                <f:selectItem itemValue="Oficial 3" />
+                                <f:selectItem itemValue="Oficial 4" />
+                            </h:selectOneMenu >                              
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{faseMB.resposta == 'Encerrado'}" >
+                            <h:outputLabel class="text-primary" for="parecer" value="Parecer Final" />
+                            <h:inputTextarea cols="30" rows="2" id="parecer" class="form-control" required="true" requiredMessage="Digite um Parecer Final" value="#{faseMB.parecerFinal}" />
+                            <h:outputLabel for="oficial" class="text-primary" value="Vencedor" />
+                            <h:selectOneMenu  class="form-control col-12" id="vencedor" value="#{faseMB.vencedor}">
+                                <f:selectItem itemValue="Promovente" />
+                                <f:selectItem itemValue="Promovido" />
+                            </h:selectOneMenu >                              
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <h:commandButton styleClass="btn btn-secondary" immediate="true" action="#{faseMB.backHome(loginMB.loggedUser)}" value="Voltar" />
+                        <h:commandButton styleClass="btn btn-primary" action="#{faseMB.responder()}" value="Concluir" />
+                    </h:panelGroup>
+                    
+                </h:panelGrid>
+
+            </h:form>     
+        </div>
+        
+        <h:panelGrid rendered="#{loginMB.loggedUser.tipo != 'Juíz'}" columns="1" style="margin: auto; margin-top: 50px; text-align: center;">
+            <h:outputText  value="Você precisa estar logado como Juíz para acessar esta página" />
+            <h:link  outcome="index" >Faça LOGIN aqui</h:link>
+        </h:panelGrid>
+        
+    </ui:define>
+    
+</ui:composition>

@@ -69,6 +69,7 @@ create table tb_fase (
 select * from tb_usuario
 
 delete from tb_usuario
+
 where nome not like '%Moro%'
 
 select * from tb_cidade
@@ -80,4 +81,53 @@ insert into tb_usuario (login) values ('a')
 select * from tb_processo
 
 select * from tb_fase
+
+delete from tb_fase
+
+
+select distinct p.id, p.dt_criacao, eu.nome,
+case
+when eu.id = promovente.advogado_id then 'Promovente'
+when eu.id = promovida.advogado_id then 'Promovido'
+end,
+promovente.nome as Promovente, promovida.nome as Promovida
+from tb_processo p
+inner join tb_usuario promovente on p.parte_promovente_id = promovente.id
+inner join tb_usuario promovida on p.parte_promovida_id = promovida.id
+inner join tb_usuario eu on (promovente.advogado_id = 30 or promovida.advogado_id = 30)
+where status <> 'Encerrado'
+
+-- Processos Abertos
+select p.id, p.dt_criacao as data, 
+p.status, juiz.nome as juiz, 
+case when eu.id = promovente.advogado_id then 'Promovente' when eu.id = promovida.advogado_id then 'Promovido' end as atuaçao,
+case when eu.id = promovente.advogado_id then promovente.nome when eu.id = promovida.advogado_id then promovida.nome end as cliente, 
+case when eu.id <> promovente.advogado_id then promovente.nome when eu.id <> promovida.advogado_id then promovida.nome end as parte_oposta
+from tb_processo p
+inner join tb_usuario promovente on p.parte_promovente_id = promovente.id
+inner join tb_usuario promovida on p.parte_promovida_id = promovida.id
+inner join tb_usuario juiz on p.juiz_id = juiz.id
+inner join (select * from tb_usuario where id = 30) eu on (promovente.advogado_id = eu.id or promovida.advogado_id = eu.id)
+where status <> 'Encerrado'
+
+-- Processos encerrados
+select p.id, p.dt_criacao as data, 
+p.status, juiz.nome as juiz, 
+case when eu.id = promovente.advogado_id then 'Promovente' when eu.id = promovida.advogado_id then 'Promovido' end as atuaçao,
+case when eu.id = promovente.advogado_id then promovente.nome when eu.id = promovida.advogado_id then promovida.nome end as cliente, 
+case when eu.id <> promovente.advogado_id then promovente.nome when eu.id <> promovida.advogado_id then promovida.nome end as parte_oposta,
+case 
+when (eu.id = promovente.advogado_id and p.vencedor = 'Promovente') or (eu.id = promovida.advogado_id and p.vencedor = 'Promovido') then 'Ganhei' 
+when (eu.id = promovente.advogado_id and p.vencedor = 'Promovido') or (eu.id = promovida.advogado_id and p.vencedor = 'Promovente') then 'Perdi'
+end as resultado
+from tb_processo p
+inner join tb_usuario promovente on p.parte_promovente_id = promovente.id
+inner join tb_usuario promovida on p.parte_promovida_id = promovida.id
+inner join tb_usuario juiz on p.juiz_id = juiz.id
+inner join (select * from tb_usuario where id = 30) eu on (promovente.advogado_id = eu.id or promovida.advogado_id = eu.id)
+where status = 'Encerrado'
+
+
+
+
 

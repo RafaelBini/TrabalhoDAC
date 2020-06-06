@@ -73,6 +73,18 @@ and open the template in the editor.
                    </p:column>
                    <p:column>
                        <f:facet name="header" >
+                           <h:outputText value="Resposta" />
+                       </f:facet>
+                       #{f.resposta}
+                   </p:column>
+                   <p:column>
+                       <f:facet name="header" >
+                           <h:outputText value="Justificativa" />
+                       </f:facet>
+                       #{f.justificativaResposta}
+                   </p:column>
+                   <p:column>
+                       <f:facet name="header" >
                            <h:outputText value="Arquivo" />
                        </f:facet>
                        <p:commandButton rendered="#{f.caminhoArquivo != null}" value="Baixar" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
@@ -84,7 +96,8 @@ and open the template in the editor.
 
                 <h:panelGrid columns="2" style="margin: auto;">
                     <h:commandButton action="#{faseMB.backHome(loginMB.loggedUser)}" styleClass="btn btn-secondary" value="Voltar" />
-                    <h:commandButton rendered="#{faseMB.podeCriarFase()}" action="#{faseMB.goNovaFase()}" styleClass="btn btn-primary"  value="Nova Fase" />
+                    <h:commandButton rendered="#{faseMB.podeCriarFase() and loginMB.loggedUser.tipo == 'Advogado'}" action="#{faseMB.goNovaFase()}" styleClass="btn btn-primary"  value="Nova Fase" />
+                    <h:commandButton rendered="#{!faseMB.podeCriarFase() and loginMB.loggedUser.tipo == 'Juíz'}" action="#{faseMB.goDeliberar(faseMB.getUltimaFase(faseMB.processo))}" styleClass="btn btn-primary"  value="Deliberar" />
                 </h:panelGrid>
 
 
