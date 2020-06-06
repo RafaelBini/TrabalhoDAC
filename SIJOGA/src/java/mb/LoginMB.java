@@ -87,6 +87,11 @@ public class LoginMB implements Serializable{
                 // Entra na tela do Advogado
                 return "advogado";
             }
+                // Se é Parte,
+            else if ("Parte".equals(users.get(0).getTipo())){
+                  // Entra na tela do Parte
+                return "parte";              
+            }
 
       
         }

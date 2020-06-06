@@ -32,11 +32,11 @@ and open the template in the editor.
                     <h:panelGrid  id="datas" rendered="#{relatorioMB.isAberto}" class="form-group" columns="2" style="margin: auto; width: 100%">  
                         <h:panelGrid columns="1">
                             <h:outputLabel  value="Inicio" />
-                            <p:calendar value="#{relatorioMB.data1}" />
+                            <p:calendar required="true" requiredMessage="Preencha a Data de Inicio" value="#{relatorioMB.data1}" />
                         </h:panelGrid>
                         <h:panelGrid columns="1">
                             <h:outputLabel  value="Fim" />
-                            <p:calendar value="#{relatorioMB.data2}" />
+                            <p:calendar required="true" requiredMessage="Preencha a Data de Fim" value="#{relatorioMB.data2}" />
                         </h:panelGrid>
                     </h:panelGrid>
 

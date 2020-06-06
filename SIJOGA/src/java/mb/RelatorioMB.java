@@ -62,7 +62,7 @@ public class RelatorioMB implements Serializable {
     public void gerarRelatorio() throws SQLException, ClassNotFoundException{
          // Recebe o usuario logado
         FacesContext context2 = FacesContext.getCurrentInstance();
-        Usuario advogado = (Usuario) context2.getApplication().getExpressionFactory()
+        Usuario loggedUser = (Usuario) context2.getApplication().getExpressionFactory()
         .createValueExpression(context2.getELContext(), "#{loginMB.loggedUser}", Usuario.class)
         .getValue(context2.getELContext());   
         
@@ -72,15 +72,22 @@ public class RelatorioMB implements Serializable {
         // Define o relatório .jasper e seus parametros
         String arquivoJasper = "";
         HashMap<String, Object> params = new HashMap<String, Object>();
-        if ("Processos Abertos".equals(this.tipo)){
+        if ("Parte".equals(loggedUser.getTipo())){
+            arquivoJasper = "ProcessosDaParte.jasper";
+            params.put("id",loggedUser.getId());    
+        }
+        else if ("Processos Abertos".equals(this.tipo)){
             arquivoJasper = "ProcessosAbertos.jasper";
-            params.put("id",advogado.getId());
+            params.put("id",loggedUser.getId());
             params.put("data1", this.data1);
             params.put("data2", this.data2);
         }
         else if ("Processos Encerrados".equals(this.tipo)){
             arquivoJasper = "ProcessosEncerrados.jasper";
-            params.put("id",advogado.getId());            
+            params.put("id",loggedUser.getId());            
+        }
+        else{
+            return;
         }
         
         

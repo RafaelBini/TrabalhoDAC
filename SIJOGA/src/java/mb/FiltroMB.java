@@ -54,7 +54,13 @@ public class FiltroMB implements Serializable {
         Session session = HibernateUtil.getSessionFactory().openSession();        
         session.beginTransaction();   
         
-        
+        // Se é parte,
+        if ("Parte".equals(loggedUser.getTipo())){
+            // Recebe todos os processos
+            Query query = session.createQuery("FROM Processo p WHERE p.promovente.id = :id OR p.promovida.id = :id ORDER BY p.id");
+            query.setLong("id", loggedUser.getId());
+            this.processos = query.list();            
+        }        
         // Se é juiz,
         if ("Juíz".equals(loggedUser.getTipo())){
             // Recebe todos os processos
@@ -115,25 +121,47 @@ public class FiltroMB implements Serializable {
     public String getResultado(Processo p){
          // Recebe o usuario logado
         FacesContext context = FacesContext.getCurrentInstance();
-        Usuario advogado = (Usuario) context.getApplication().getExpressionFactory()
+        Usuario loggedUser = (Usuario) context.getApplication().getExpressionFactory()
         .createValueExpression(context.getELContext(), "#{loginMB.loggedUser}", Usuario.class)
-        .getValue(context.getELContext());       
+        .getValue(context.getELContext());    
         
-        // Se venci
-        if ((p.getPromovente().getAdvogado().getId() == advogado.getId() 
-                && "Promovente".equals(p.getVencedor())) 
-                || (p.getPromovida().getAdvogado().getId() == advogado.getId() 
-                && "Promovido".equals(p.getVencedor()))){
-            
-            return "Ganhei";
-            
+        // Se sou Advogado,
+        if ("Advogado".equals(loggedUser.getTipo())){
+            // Se venci
+           if ((p.getPromovente().getAdvogado().getId() == loggedUser.getId() 
+                   && "Promovente".equals(p.getVencedor())) 
+                   || (p.getPromovida().getAdvogado().getId() == loggedUser.getId() 
+                   && "Promovido".equals(p.getVencedor()))){
+
+               return "Ganhei";
+
+           }
+           else if ((p.getPromovente().getAdvogado().getId() == loggedUser.getId() 
+                   && "Promovido".equals(p.getVencedor())) 
+                   || (p.getPromovida().getAdvogado().getId() == loggedUser.getId() 
+                   && "Promovente".equals(p.getVencedor()))){
+               return "Perdi";
+           }         
         }
-        else if ((p.getPromovente().getAdvogado().getId() == advogado.getId() 
-                && "Promovido".equals(p.getVencedor())) 
-                || (p.getPromovida().getAdvogado().getId() == advogado.getId() 
-                && "Promovente".equals(p.getVencedor()))){
-            return "Perdi";
+        // Se sou parte
+        else if ("Parte".equals(loggedUser.getTipo())){
+            // Se venci
+           if ((p.getPromovente().getId() == loggedUser.getId() 
+                   && "Promovente".equals(p.getVencedor())) 
+                   || (p.getPromovida().getId() == loggedUser.getId() 
+                   && "Promovido".equals(p.getVencedor()))){
+
+               return "Ganhei";
+
+           }
+           else if ((p.getPromovente().getId() == loggedUser.getId() 
+                   && "Promovido".equals(p.getVencedor())) 
+                   || (p.getPromovida().getId() == loggedUser.getId() 
+                   && "Promovente".equals(p.getVencedor()))){
+               return "Perdi";
+           }      
         }
+  
         
         return "-";
         

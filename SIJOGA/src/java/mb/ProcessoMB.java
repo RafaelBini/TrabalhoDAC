@@ -117,7 +117,7 @@ public class ProcessoMB implements Serializable {
         
         // Recebe juiz com menos processos
         Query queryJuiz;      
-        queryJuiz = session.createQuery("SELECT u, COUNT(p) FROM Usuario u LEFT JOIN u.juizProcessos p WHERE u.tipo = 'Juíz' GROUP BY u.id ORDER BY COUNT(p) DESC");                    
+        queryJuiz = session.createQuery("SELECT u, COUNT(p) FROM Usuario u LEFT JOIN u.juizProcessos p WHERE u.tipo = 'Juíz' GROUP BY u.id ORDER BY COUNT(p)");                    
         Object[] retorno = (Object[])queryJuiz.list().get(0);
         processo.setJuiz((Usuario)retorno[0]);        
         
