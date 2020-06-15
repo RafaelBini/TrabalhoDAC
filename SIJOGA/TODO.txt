@@ -1,12 +1,7 @@
 
-
-- Implementar Páginas do Advogado
-	
-
 - Implementar Páginas do Juiz
 	- Adiconar opção de solicitar intimação
 
-- Implementar Páginas da Parte
 
 
 

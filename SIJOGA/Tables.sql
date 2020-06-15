@@ -68,9 +68,6 @@ create table tb_fase (
 
 select * from tb_usuario
 
-delete from tb_usuario
-
-where nome not like '%Moro%'
 
 select * from tb_cidade
 where id = 6
@@ -127,7 +124,20 @@ inner join tb_usuario juiz on p.juiz_id = juiz.id
 inner join (select * from tb_usuario where id = 30) eu on (promovente.advogado_id = eu.id or promovida.advogado_id = eu.id)
 where status = 'Encerrado'
 
-
+-- Processos Parte
+select p.id, p.dt_criacao as data, 
+p.status, juiz.nome as juiz, 
+case when eu.id = promovente.id then 'Promovente' when eu.id = promovida.id then 'Promovido' end as atuaçao,
+case when eu.id <> promovente.id then promovente.nome when eu.id <> promovida.id then promovida.nome end as parte_oposta,
+case 
+when (eu.id = promovente.id and p.vencedor = 'Promovente') or (eu.id = promovida.id and p.vencedor = 'Promovido') then 'Ganhei' 
+when (eu.id = promovente.id and p.vencedor = 'Promovido') or (eu.id = promovida.id and p.vencedor = 'Promovente') then 'Perdi'
+end as resultado
+from tb_processo p
+inner join tb_usuario promovente on p.parte_promovente_id = promovente.id
+inner join tb_usuario promovida on p.parte_promovida_id = promovida.id
+inner join tb_usuario juiz on p.juiz_id = juiz.id
+inner join (select * from tb_usuario where id = 32) eu on (promovente.id = eu.id or promovida.id = eu.id)
 
 
 
