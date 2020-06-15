@@ -218,7 +218,7 @@ public class UsuarioMB implements Serializable{
         }
         catch(HibernateException hex){
 
-            FacesMessage msg = new FacesMessage("Não foi possivel criar o usuário. Veja os erros sinalziados");
+            FacesMessage msg = new FacesMessage("Não foi possivel criar o usuário. Veja os erros sinalizados");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             FacesContext.getCurrentInstance().addMessage(null, msg);        
             
