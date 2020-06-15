@@ -12,7 +12,7 @@ and open the template in the editor.
     xmlns:ui="http://java.sun.com/jsf/facelets">
           
     <ui:define name="corpo">
-        <div style="margin-left: auto; margin-right: auto; margin-top: 2%; margin-bottom: 2%; width: 900px;" onload="intimacaoExecutada();">
+        <div style="margin-left: auto; margin-right: auto; margin-top: 2%; margin-bottom: 2%; width: 900px; background-color: lightblue; padding: 20px; border-radius: 12px;" onload="intimacaoExecutada();">
             <h:form id="form">
                 <div class="form-group row">
                     <label class="text-primary col-2 col-form-label" for="cpf">CPF:</label>
@@ -40,7 +40,7 @@ and open the template in the editor.
                     </div>
                     <label class="text-primary col-2 col-form-label" for="numProcesso">Processo:</label>
                     <div class="col-2">
-                        <p:inputText class="form-control" id="processo" value="#{intimacaoMB.intimacao.numProcesso}"/>
+                        <p:inputText class="form-control" id="processo" disabled="true" value="#{intimacaoMB.intimacao.numProcesso}"/>
                     </div>
                 </div>
                 <br />
@@ -48,7 +48,7 @@ and open the template in the editor.
                 <br />
                 <div class="form-group">
                     <label class="text-primary " for="status">Estado da Intimação:</label>
-                    <h:selectOneRadio id="status" value="#{intimacaoMB.intimacao.status}" layout="pageDirection">
+                    <h:selectOneRadio id="status" disabled="true" value="#{intimacaoMB.intimacao.status}" layout="pageDirection">
                         <f:selectItem id="Efetuada" itemLabel="Efetuada" itemValue="Efetuada"/>
                         <f:selectItem id="Nao-efetuada" itemLabel="Não efetuada" itemValue="Não efetuada" />
                     </h:selectOneRadio>
@@ -69,7 +69,8 @@ and open the template in the editor.
                 </div>
                 
                 <div class="form-group" style="padding: 20px; text-align: center;">
-                    <h:commandButton action="#{intimacaoMB.editar()}" class="btn bg-primary text-white" value="Editar"/>
+                    <h:commandButton action="#{intimacaoMB.voltar()}" class="btn bg-secondary text-white" value="Voltar" />
+                    <h:commandButton action="#{intimacaoMB.editar()}" class="btn bg-primary text-white" value="Salvar"/>
                 </div>
             </h:form>
         </div>

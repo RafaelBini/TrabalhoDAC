@@ -95,7 +95,7 @@ public class UsuarioMB implements Serializable{
         Session session = HibernateUtil.getSessionFactory().openSession();        
         session.beginTransaction();
         Query query;
-        query = session.createQuery("FROM tb_usuario WHERE login = :username");
+        query = session.createQuery("FROM Usuario WHERE login = :username");
         query.setString("username",this.usuario.getLogin());
         List<Usuario> users = query.list();
         if (users.isEmpty()){
@@ -113,7 +113,7 @@ public class UsuarioMB implements Serializable{
         Session session = HibernateUtil.getSessionFactory().openSession();        
         session.beginTransaction(); 
         Query query;       
-        query = session.createQuery("FROM tb_usuario WHERE cpf = :cpf");                   
+        query = session.createQuery("FROM Usuario WHERE cpf = :cpf");                   
         query.setString("cpf",this.usuario.getCpf());
         List<Usuario> users = query.list();
         if (users.isEmpty()){
@@ -126,9 +126,9 @@ public class UsuarioMB implements Serializable{
         session.close();
         
         // Valida o CPF
-        /*if(!isCpfValido(this.usuario.getCpf())){
+        if(!isCpfValido(this.usuario.getCpf())){
             this.cpfLabelMsg = "CPF inválido";
-        }*/
+        }
     }
     
     public String voltarAdmin(){
@@ -141,10 +141,10 @@ public class UsuarioMB implements Serializable{
         return "admin";
     }
     
-    public String cadastrar() throws Exception{
+    public String cadastrar(){
         try{
             // Valida o CPF
-            if (!this.isCpfValid(this.usuario.getCpf())){
+            if (!this.isCpfValido(this.usuario.getCpf())){
                 throw new Exception("CPF inválido!");
             }
             
@@ -174,12 +174,12 @@ public class UsuarioMB implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, msg);
             
             if ("Oficial".equals(this.usuario.getTipo())){
-                return "listarIntimacoesOficial";
+                return "admin";
             }else{
                 return "index";
             }
         }
-        catch(HibernateException hex){
+        catch(Exception hex){
             FacesMessage msg = new FacesMessage("Não foi possivel criar o usuário. Veja os erros sinalizados");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             FacesContext.getCurrentInstance().addMessage(null, msg);        
@@ -195,7 +195,7 @@ public class UsuarioMB implements Serializable{
         return "intimacoes";
     }
         
-    public boolean isCpfValid(String strCpf){
+    public boolean isCpfValido(String strCpf){
         strCpf = strCpf.replace(".", "").replace("-", "");
         
         if (strCpf.equals("")) {  

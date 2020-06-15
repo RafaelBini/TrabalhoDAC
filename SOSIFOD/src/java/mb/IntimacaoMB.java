@@ -215,6 +215,11 @@ public class IntimacaoMB implements Serializable{
         return "editar";
     }
     
+    public String voltar(){
+        conversation.end();
+        return "intimacoes";
+    }
+    
     public String editar() throws Exception{
         try{
             // Valida o CPF
