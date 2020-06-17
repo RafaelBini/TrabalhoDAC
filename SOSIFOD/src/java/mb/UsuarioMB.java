@@ -159,25 +159,41 @@ public class UsuarioMB implements Serializable{
             
             //Cadastro de Oficial
             //Usuario user = (Usuario)session.get(Usuario.class, oficialUser.getId());
-            this.usuario.setTipo("Oficial");
+            //this.usuario.setTipo("Oficial");
             
-            // Salva no bd
-            session.save(this.usuario);
+            //Valida o Usuário
+            validaUser();
+            if(this.loginLabelMsg.equals("")){
+                // Salva no bd
+                session.save(this.usuario);
+            }else{
+                throw new Exception(this.loginLabelMsg);
+            }
+            
+            
 
             session.getTransaction().commit();           
             session.close(); 
             
             conversation.end();
             
-            FacesMessage msg = new FacesMessage("Usuário Cadastrado!");
-            msg.setSeverity(FacesMessage.SEVERITY_INFO);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            
             if ("Oficial".equals(this.usuario.getTipo())){
+                FacesMessage msg = new FacesMessage("Oficial Cadastrado!");
+                msg.setSeverity(FacesMessage.SEVERITY_INFO);
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }else{
+                FacesMessage msg = new FacesMessage("Administrador Cadastrado!");
+                msg.setSeverity(FacesMessage.SEVERITY_INFO);
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
+            
+            
+            /*if ("Oficial".equals(this.usuario.getTipo())){
                 return "admin";
             }else{
                 return "index";
-            }
+            }*/
+            return "admin";
         }
         catch(Exception hex){
             FacesMessage msg = new FacesMessage("Não foi possivel criar o usuário. Veja os erros sinalizados");
@@ -187,9 +203,14 @@ public class UsuarioMB implements Serializable{
         }
     }
     
-    public String goCadastrar(){
+    public String goCadastrarOficial(){
         return "cadastroOficial";
     }
+    
+    public String goCadastrarAdmin(){
+        return "cadastroAdmin";
+    }
+        
     
      public String goIntimacoes(){
         return "intimacoes";

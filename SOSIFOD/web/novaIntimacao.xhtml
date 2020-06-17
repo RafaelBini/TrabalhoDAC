@@ -12,7 +12,7 @@ and open the template in the editor.
     xmlns:ui="http://java.sun.com/jsf/facelets">
           
     <ui:define name="corpo">
-        <div style="margin-left: auto; margin-right: auto; margin-top: 2%; margin-bottom: 2%; width: 900px; background-color: lightblue; padding: 20px; border-radius: 12px;" onload="intimacaoExecutada();">
+        <div style="margin-left: auto; margin-right: auto; margin-top: 2%; margin-bottom: 2%; width: 900px; background-color: lightblue; padding: 20px; border-radius: 12px;">
             <h:form id="form">
                 <div class="form-group row">
                     <label class="text-primary col-2 col-form-label" for="cpf">CPF:</label>
@@ -36,14 +36,16 @@ and open the template in the editor.
                 <div class="form-group row">
                     <label class="text-primary col-2 col-form-label" for="oficial">Oficial de Justiça:</label>
                     <div class="col-6">
-                        
-                        <h:selectOneMenu  styleClass="form-control" id="oficiais" value="#{intimacaoMB.intimacao.oficial.nome}">
-                            <f:selectItems value="#{intimacaoMB.users}" var="user" itemValue="#{user.nome}" itemLabel="#{user.nome}"/>
+                        <h:selectOneMenu  styleClass="form-control" id="oficiais" value="#{intimacaoMB.oficialSelecionado}">
+                            <f:selectItems value="#{intimacaoMB.users}" var="user" itemValue="#{user.id}" itemLabel="#{user.nome}"/>
                         </h:selectOneMenu >
                     </div>
                     <label class="text-primary col-2 col-form-label" for="numProcesso">Processo:</label>
                     <div class="col-2">
-                        <p:inputText class="form-control" id="processo" disabled="true" value="#{intimacaoMB.intimacao.numProcesso}"/>
+                        <h:inputText class="form-control" id="processo" value="#{intimacaoMB.intimacao.numProcesso}">
+                            <f:ajax execute="@this" render="form:errorMessageTag" listener="#{intimacaoMB.validaIntimacao()}" />
+                        </h:inputText>
+                        <h:outputLabel id="errorMessageTag" for="intimacao" value="#{intimacaoMB.intimacaoLabelMsg}" style="color: red"/>
                     </div>
                 </div>
                 <br />
@@ -56,24 +58,10 @@ and open the template in the editor.
                         <f:selectItem id="Nao-efetuada" itemLabel="Não efetuada" itemValue="Não efetuada" />
                     </h:selectOneRadio>
                 </div>
-                <div class="form-group row">
-                    <label class="text-primary col-3 col-form-label" for="oficial">Data/Hora da Intimação:</label>
-                    <div class="col-3">
-                        <p:inputText disabled="true" class="form-control" id="dtIntimacao" value="#{intimacaoMB.intimacao.dtIntimacao}" >
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"/>
-                        </p:inputText> 
-                    </div>
-                    <label class="text-primary col-3 col-form-label" for="oficial">Data/Hora da Execução:</label>
-                    <div class="col-3">
-                        <p:inputText disabled="true" class="form-control" id="dtExecucao" value="#{intimacaoMB.intimacao.dtExecucao}" >
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"/>
-                        </p:inputText>  
-                    </div>
-                </div>
                 
                 <div class="form-group" style="padding: 20px; text-align: center;">
                     <h:commandButton action="#{intimacaoMB.voltar()}" class="btn bg-secondary text-white" value="Voltar" />
-                    <h:commandButton action="#{intimacaoMB.editar()}" class="btn bg-primary text-white" value="Salvar"/>
+                    <h:commandButton action="#{intimacaoMB.cadastrar()}" class="btn bg-primary text-white" value="Cadastrar"/>
                 </div>
             </h:form>
         </div>

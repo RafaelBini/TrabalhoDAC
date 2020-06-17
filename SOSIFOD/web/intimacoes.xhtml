@@ -13,6 +13,8 @@ and open the template in the editor.
     
     
     <ui:define name="corpo" >
+        <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Admin'}" styleClass="btn btn-primary" action="#{intimacaoMB.goCadastrar()}" value="Nova Intimação"/>
+        <br/>
         <h:form>
             <h:dataTable id="intimacoes" value="#{intimacaoMB.intimacoes}"
                          var="i"

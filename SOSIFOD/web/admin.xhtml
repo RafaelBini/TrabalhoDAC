@@ -16,7 +16,9 @@ and open the template in the editor.
             <h1 class="text-dk">SOSIFOD</h1>
             <h6 class="text-dk">ADMIN</h6>
 
-            <h:commandButton styleClass="btn btn-primary" action="#{usuarioMB.goCadastrar()}" value="Novo Oficial de Justiça" />
+            <h:commandButton styleClass="btn btn-primary" action="#{usuarioMB.goCadastrarOficial()}" value="Novo Oficial de Justiça" />
+            
+            <h:commandButton styleClass="btn btn-primary" action="#{usuarioMB.goCadastrarAdmin()}" value="Novo Administrador" />
 
             <h:commandButton styleClass="btn btn-secondary" action="#{intimacaoMB.loadIntimacoes()}" value="Manter Intimações" />  
         </h:panelGrid>
