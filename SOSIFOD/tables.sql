@@ -22,9 +22,9 @@ Constraint ukCpf unique(cpf),
 Constraint ukemail unique(email),
 Constraint fkOficial foreign key(idUsuario) references tb_usuarioSOSIFOD(id));*/
 
-drop table tb_usuario
-drop table tb_oficial
-drop table tb_intimacao
+-- drop table tb_usuario;
+-- drop table tb_oficial;
+-- drop table tb_intimacao;
 
 create table tb_intimacao(
 id_intimacao serial,
@@ -40,16 +40,16 @@ Constraint pkIntimacao primary key(id_intimacao, id_oficial, num_processo),
 Constraint fkOficial foreign key(id_oficial) references tb_usuario(id));
 
 ------------------------------------------------------------------------
-insert into tb_usuario values(default, 'teste', '698dc19d489c4e4db73e28a713eab07b', 'Admin', '12345678900', 'Administrador Teste', 'admin@gmail.com')
+insert into tb_usuario values(default, 'teste', '698dc19d489c4e4db73e28a713eab07b', 'Admin', '12345678900', 'Administrador Teste', 'admin@gmail.com');
 
-select * from tb_usuario
+select * from tb_usuario;
 
-insert into tb_intimacao values(default, '2020-02-11 16:30:47', '301.311.180-13', 'João Sorrisão', 'Rua dos Teste, 3, Curitiba, PR', '2020-12-15 16:30:47', 'Efetuada', 2, 12345)
+insert into tb_intimacao values(default, '2020-02-11 16:30:47', '301.311.180-13', 'João Sorrisão', 'Rua dos Teste, 3, Curitiba, PR', '2020-12-15 16:30:47', 'Efetuada', 2, 12345);
 
-insert into tb_intimacao values(default, '2020-02-11 16:30:47', '103.325.760-51', 'Joana Guimarães', 'Rua dos Exemplos, 50, Curitiba, PR', now(), 'Efetuada', 2, 23456)
+insert into tb_intimacao values(default, '2020-02-11 16:30:47', '103.325.760-51', 'Joana Guimarães', 'Rua dos Exemplos, 50, Curitiba, PR', now(), 'Efetuada', 2, 23456);
 
-insert into tb_intimacao(id_intimacao, dt_intimacao, cpf_intimado, nome_intimado, endereco_intimado, status, id_oficial, num_processo) values(default, now(), '412.048.550-13', 'Nando Moura', 'Rua dos Oficiais, 444, Curitiba, PR', 'Não efetuada', 2, 56789)
+insert into tb_intimacao(id_intimacao, dt_intimacao, cpf_intimado, nome_intimado, endereco_intimado, status, id_oficial, num_processo) values(default, now(), '412.048.550-13', 'Nando Moura', 'Rua dos Oficiais, 444, Curitiba, PR', 'Não efetuada', 2, 56789);
 
-select * from tb_intimacao order by id_intimacao
+select * from tb_intimacao order by id_intimacao;
 
-delete from tb_intimacao where id_intimacao = 3
+delete from tb_intimacao where id_intimacao = 3;

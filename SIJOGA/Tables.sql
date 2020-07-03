@@ -66,20 +66,20 @@ create table tb_fase (
 
 ----------------------------------------------------------------------------------------------------------
 
-select * from tb_usuario
+select * from tb_usuario;
 
 
 select * from tb_cidade
-where id = 6
+where id = 6;
 
-insert into tb_usuario (login) values ('a')
+insert into tb_usuario (login) values ('a');
 
 
-select * from tb_processo
+select * from tb_processo;
 
-select * from tb_fase
+select * from tb_fase;
 
-delete from tb_fase
+delete from tb_fase;
 
 
 select distinct p.id, p.dt_criacao, eu.nome,
@@ -92,7 +92,7 @@ from tb_processo p
 inner join tb_usuario promovente on p.parte_promovente_id = promovente.id
 inner join tb_usuario promovida on p.parte_promovida_id = promovida.id
 inner join tb_usuario eu on (promovente.advogado_id = 30 or promovida.advogado_id = 30)
-where status <> 'Encerrado'
+where status <> 'Encerrado';
 
 -- Processos Abertos
 select p.id, p.dt_criacao as data, 
@@ -105,7 +105,7 @@ inner join tb_usuario promovente on p.parte_promovente_id = promovente.id
 inner join tb_usuario promovida on p.parte_promovida_id = promovida.id
 inner join tb_usuario juiz on p.juiz_id = juiz.id
 inner join (select * from tb_usuario where id = 30) eu on (promovente.advogado_id = eu.id or promovida.advogado_id = eu.id)
-where status <> 'Encerrado'
+where status <> 'Encerrado';
 
 -- Processos encerrados
 select p.id, p.dt_criacao as data, 
@@ -122,7 +122,7 @@ inner join tb_usuario promovente on p.parte_promovente_id = promovente.id
 inner join tb_usuario promovida on p.parte_promovida_id = promovida.id
 inner join tb_usuario juiz on p.juiz_id = juiz.id
 inner join (select * from tb_usuario where id = 30) eu on (promovente.advogado_id = eu.id or promovida.advogado_id = eu.id)
-where status = 'Encerrado'
+where status = 'Encerrado';
 
 -- Processos Parte
 select p.id, p.dt_criacao as data, 
@@ -138,6 +138,6 @@ inner join tb_usuario promovente on p.parte_promovente_id = promovente.id
 inner join tb_usuario promovida on p.parte_promovida_id = promovida.id
 inner join tb_usuario juiz on p.juiz_id = juiz.id
 inner join (select * from tb_usuario where id = 32) eu on (promovente.id = eu.id or promovida.id = eu.id)
-
+;
 
 

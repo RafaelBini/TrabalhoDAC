@@ -18,6 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import util.HibernateUtil;
 
 /**
  *
@@ -106,14 +110,23 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    /*public List<Usuario> getUsuarios() {
-        return usuarios;
+    
+    public static List<Usuario> listarOficiais() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery("SELECT cpf, nome, email FROM Usuario WHERE tipo = ?");
+        
+        query.setString(0, "Oficial");
+        
+        List<Usuario> oficiais = new ArrayList<>();
+        
+        query.list().stream().forEach(it -> {
+            Usuario u = new Usuario();
+            u.setCpf((String)((Object[])it)[0]);
+            u.setNome((String)((Object[])it)[1]);
+            u.setEmail((String)((Object[])it)[2]);
+            oficiais.add(u);
+        });
+        
+        return oficiais;
     }
-
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }*/
-    
-    
 }
