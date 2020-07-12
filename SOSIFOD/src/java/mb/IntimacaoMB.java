@@ -5,7 +5,9 @@
  */
 package mb;
 
+import beans.Fase;
 import beans.Intimacao;
+import beans.Processo;
 import beans.Usuario;
 
 import java.io.Serializable;
@@ -22,6 +24,11 @@ import javax.inject.Named;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -34,6 +41,7 @@ import util.HibernateUtil;
 @Named(value = "intimacaoMB")
 @ConversationScoped()
 public class IntimacaoMB implements Serializable {
+
     private Intimacao intimacao;
     private String status;
     private List<Intimacao> intimacoes;
@@ -88,7 +96,6 @@ public class IntimacaoMB implements Serializable {
 
         }
 
-
         session.getTransaction().commit();
         session.close();
 
@@ -113,7 +120,6 @@ public class IntimacaoMB implements Serializable {
         return oficiais;
     }
 
-
     public void executar(Intimacao i) {
         this.intimacao = i;
         List<Intimacao> buscarIntimacoes;
@@ -128,19 +134,43 @@ public class IntimacaoMB implements Serializable {
         Intimacao intimacao = buscarIntimacoes.get(0);
 
         if (intimacao.getStatus().equals("Não efetuada")) {
-            intimacao.setStatus("Efetuada");
-            Date date = new Date();
-            intimacao.setDtExecucao(date);
-            session.update(intimacao);
+            
+            Processo p = new Processo();
+            p.setId(intimacao.getNumProcesso());
+            
+            Fase f = new Fase(
+                    p,
+                    "Intimação executada",
+                    "Fase gerada automaticamente a partir da execução da intimação via SOSIFOD.",
+                    "Deliberativa"
+            );
 
-            session.getTransaction().commit();
-            session.close();
+            Client client = ClientBuilder.newClient();
 
-            conversation.end();
+            Response response = client
+                    .target("http://localhost:8080/SIJOGA/webresources/fases")
+                    .request(MediaType.APPLICATION_JSON + ";charset=utf-8")
+                    .post(Entity.json(f));
 
-            FacesMessage msg = new FacesMessage("Intimação Executada!");
-            msg.setSeverity(FacesMessage.SEVERITY_INFO);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            if (response.getStatus() == 201) {
+                intimacao.setStatus("Efetuada");
+                Date date = new Date();
+                intimacao.setDtExecucao(date);
+                session.update(intimacao);
+
+                session.getTransaction().commit();
+                session.close();
+
+                conversation.end();
+
+                FacesMessage msg = new FacesMessage("Intimação Executada!");
+                msg.setSeverity(FacesMessage.SEVERITY_INFO);
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else {
+                FacesMessage msg = new FacesMessage("Erro ao executar intimação.");
+                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
         } else {
             session.getTransaction().commit();
             session.close();
@@ -151,7 +181,6 @@ public class IntimacaoMB implements Serializable {
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-
 
     }
 
@@ -186,14 +215,12 @@ public class IntimacaoMB implements Serializable {
         query.setLong("id", i.getId());
         int rows = query.executeUpdate();
 
-
         for (Intimacao intima : this.intimacoes) {
             if (intima.getId() == i.getId()) {
                 this.intimacoes.remove(i);
                 break;
             }
         }
-
 
         session.getTransaction().commit();
         session.close();
@@ -253,7 +280,6 @@ public class IntimacaoMB implements Serializable {
                 this.intimacao.setDtIntimacao(date);
             }
 
-
             // Salva no bd
             session.save(this.intimacao);
 
@@ -276,7 +302,6 @@ public class IntimacaoMB implements Serializable {
             return null;
         }
     }
-
 
     public String editar() throws Exception {
         try {
@@ -311,7 +336,6 @@ public class IntimacaoMB implements Serializable {
 
             Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-
 
             // Query para alteração de oficial
             Query query;
@@ -498,6 +522,5 @@ public class IntimacaoMB implements Serializable {
     public void setIntimacaoLabelMsg(String intimacaoLabelMsg) {
         this.intimacaoLabelMsg = intimacaoLabelMsg;
     }
-
 
 }

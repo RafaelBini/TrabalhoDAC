@@ -88,7 +88,10 @@ public class FaseMB implements Serializable {
         this.faseEscolhida = umaFase;
         
         Client client = ClientBuilder.newClient();
-        this.oficiais = client.target("http://localhost:8080/SOSIFOD/webresources/oficiais").request(MediaType.APPLICATION_JSON).get(new GenericType<ArrayList<Oficial>>() {});
+        this.oficiais = client
+                .target("http://localhost:8080/SOSIFOD/webresources/oficiais")
+                .request(MediaType.APPLICATION_JSON + ";charset=utf-8")
+                .get(new GenericType<ArrayList<Oficial>>() {});
 
         this.processo = umaFase.getProcesso();
         
@@ -157,7 +160,10 @@ public class FaseMB implements Serializable {
 
             Client client = ClientBuilder.newClient();
 
-            Response r = client.target("http://localhost:8080/SOSIFOD/webresources/intimacoes").request().post(Entity.json(i));
+            Response r = client
+                    .target("http://localhost:8080/SOSIFOD/webresources/intimacoes")
+                    .request(MediaType.APPLICATION_JSON + ";charset=utf-8")
+                    .post(Entity.json(i));
 
             if (r.getStatus() == 201) {
                 Fase f = (Fase) session.get(Fase.class, this.faseEscolhida.getId());
