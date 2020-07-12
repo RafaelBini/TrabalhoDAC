@@ -5,10 +5,8 @@
         <group>
             <file>file:/C:/Users/thyag/Desktop/proj/TrabalhoDAC/SIJOGA/src/java/beans/Usuario.java</file>
             <file>file:/C:/Users/thyag/Desktop/proj/TrabalhoDAC/SIJOGA/src/java/mb/ProcessoMB.java</file>
-            <file>file:/C:/Users/thyag/Desktop/proj/TrabalhoDAC/SIJOGA/src/java/util/HibernateUtil.java</file>
-            <file>file:/C:/Users/thyag/Desktop/proj/TrabalhoDAC/SIJOGA/src/java/mb/FaseMB.java</file>
-            <file>file:/C:/Users/thyag/Desktop/proj/TrabalhoDAC/SIJOGA/src/java/hibernate.cfg.xml</file>
             <file>file:/C:/Users/thyag/Desktop/proj/TrabalhoDAC/SIJOGA/src/java/mb/UsuarioMB.java</file>
+            <file>file:/C:/Users/thyag/Desktop/proj/TrabalhoDAC/SIJOGA/web/index.xhtml</file>
         </group>
     </open-files>
 </project-private>

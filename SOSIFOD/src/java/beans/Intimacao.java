@@ -6,6 +6,7 @@
 package beans;
 
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.dateTime;
+
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Date;
@@ -23,14 +24,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- *
  * @author mlcab
  */
 
 @Entity
-@Table(name="tb_intimacao")
+@Table(name = "tb_intimacao")
 public class Intimacao {
-    
+
     private int id;
     private Date dtIntimacao;
     private String cpf;
@@ -42,7 +42,7 @@ public class Intimacao {
     private int numProcesso;
 
     @Id
-    @Column(name="id_intimacao")
+    @Column(name = "id_intimacao")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
@@ -52,7 +52,7 @@ public class Intimacao {
         this.id = id;
     }
 
-    @Column(name="dt_intimacao")
+    @Column(name = "dt_intimacao")
     @Temporal(TemporalType.TIMESTAMP)
     public Date getDtIntimacao() {
         return dtIntimacao;
@@ -62,7 +62,7 @@ public class Intimacao {
         this.dtIntimacao = dtIntimacao;
     }
 
-    @Column(name="cpf_intimado")
+    @Column(name = "cpf_intimado")
     public String getCpf() {
         return cpf;
     }
@@ -71,7 +71,7 @@ public class Intimacao {
         this.cpf = cpf;
     }
 
-    @Column(name="nome_intimado")
+    @Column(name = "nome_intimado")
     public String getNome() {
         return nome;
     }
@@ -80,7 +80,7 @@ public class Intimacao {
         this.nome = nome;
     }
 
-    @Column(name="endereco_intimado")
+    @Column(name = "endereco_intimado")
     public String getEndereco() {
         return endereco;
     }
@@ -89,7 +89,7 @@ public class Intimacao {
         this.endereco = endereco;
     }
 
-    @Column(name="dt_execucao")
+    @Column(name = "dt_execucao")
     @Temporal(TemporalType.TIMESTAMP)
     public Date getDtExecucao() {
         return dtExecucao;
@@ -107,8 +107,8 @@ public class Intimacao {
         this.status = status;
     }
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="id_oficial", updatable=true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_oficial", updatable = true)
     public Usuario getOficial() {
         return oficial;
     }
@@ -117,7 +117,7 @@ public class Intimacao {
         this.oficial = oficial;
     }
 
-    @Column(name="num_processo")
+    @Column(name = "num_processo")
     public int getNumProcesso() {
         return numProcesso;
     }
@@ -125,9 +125,6 @@ public class Intimacao {
     public void setNumProcesso(int numProcesso) {
         this.numProcesso = numProcesso;
     }
-    
-    
-    
-    
-    
+
+
 }

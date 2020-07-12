@@ -6,52 +6,58 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
-        
-    
-    <ui:define name="corpo" >
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+
+    <ui:define name="corpo">
         <div class="titulo">
             Nova Fase
         </div>
         <div class="content">
-            <h:form id="form" rendered="#{loginMB.loggedUser.tipo == 'Advogado'}" enctype="multipart/form-data">     
-                
+            <h:form id="form" rendered="#{loginMB.loggedUser.tipo == 'Advogado'}" enctype="multipart/form-data">
+
                 <h:panelGrid columns="1" styleClass="table">
-                    
-                    <h:outputLabel class="text-primary" for="titulo" value="Título" />                        
-                    <h:inputText id="titulo" class="form-control" required="true" requiredMessage="Digite um titulo" a:autofocus="true" value="#{faseMB.novaFase.titulo}" />
 
-                    <h:outputLabel class="text-primary" for="descricao" value="Descrição" />
-                    <h:inputTextarea cols="30" rows="2" id="descricao" class="form-control" required="true" requiredMessage="Digite uma descrição" a:autofocus="true" value="#{faseMB.novaFase.descricao}" />
-                      
-                    <p:fileUpload id="arquivo" class="btn btn-primary" value="#{faseMB.file}" mode="simple"/>                  
+                    <h:outputLabel class="text-primary" for="titulo" value="Título"/>
+                    <h:inputText id="titulo" class="form-control" required="true" requiredMessage="Digite um titulo"
+                                 a:autofocus="true" value="#{faseMB.novaFase.titulo}"/>
 
-                    <h:outputLabel for="tipo" class="text-primary" value="Tipo" />
-                    <h:selectOneMenu  class="form-control col-12" id="tipo" value="#{faseMB.novaFase.tipo}">
-                        <f:selectItem itemValue="Informativa" />
-                        <f:selectItem itemValue="Deliberativa" />
-                    </h:selectOneMenu >                         
+                    <h:outputLabel class="text-primary" for="descricao" value="Descrição"/>
+                    <h:inputTextarea cols="30" rows="2" id="descricao" class="form-control" required="true"
+                                     requiredMessage="Digite uma descrição" a:autofocus="true"
+                                     value="#{faseMB.novaFase.descricao}"/>
+
+                    <p:fileUpload id="arquivo" class="btn btn-primary" value="#{faseMB.file}" mode="simple"/>
+
+                    <h:outputLabel for="tipo" class="text-primary" value="Tipo"/>
+                    <h:selectOneMenu class="form-control col-12" id="tipo" value="#{faseMB.novaFase.tipo}">
+                        <f:selectItem itemValue="Informativa"/>
+                        <f:selectItem itemValue="Deliberativa"/>
+                    </h:selectOneMenu>
 
 
                     <h:panelGrid class="form-group" columns="2" style="margin: auto;">
-                       <h:commandButton class="btn btn-secondary" immediate="true" action="#{faseMB.goFases(faseMB.processo)}" value="Voltar" />
-                       <h:commandButton class="btn bg-primary text-white" action="#{faseMB.cadastrar(loginMB.loggedUser)}" value="Cadastrar" />
-                   </h:panelGrid>
-                
+                        <h:commandButton class="btn btn-secondary" immediate="true"
+                                         action="#{faseMB.goFases(faseMB.processo)}" value="Voltar"/>
+                        <h:commandButton class="btn bg-primary text-white"
+                                         action="#{faseMB.cadastrar(loginMB.loggedUser)}" value="Cadastrar"/>
+                    </h:panelGrid>
+
                 </h:panelGrid>
 
-            </h:form>     
+            </h:form>
         </div>
-        
-        <h:panelGrid rendered="#{loginMB.loggedUser.tipo != 'Advogado'}" columns="1" style="margin: auto; margin-top: 50px; text-align: center;">
-            <h:outputText  value="Você precisa estar logado como Advogado para acessar esta página" />
-            <h:link  outcome="index" >Faça LOGIN aqui</h:link>
+
+        <h:panelGrid rendered="#{loginMB.loggedUser.tipo != 'Advogado'}" columns="1"
+                     style="margin: auto; margin-top: 50px; text-align: center;">
+            <h:outputText value="Você precisa estar logado como Advogado para acessar esta página"/>
+            <h:link outcome="index">Faça LOGIN aqui</h:link>
         </h:panelGrid>
-        
+
     </ui:define>
-    
+
 </ui:composition>

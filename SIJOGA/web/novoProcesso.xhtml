@@ -6,43 +6,45 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
-        
-    
-    <ui:define name="corpo" >
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+
+    <ui:define name="corpo">
         <div class="titulo">
             Novo Processo
         </div>
         <div class="content">
-            <h:form id="form" rendered="#{loginMB.loggedUser.tipo == 'Advogado'}">     
-                <h:outputLabel for="cliente" class="text-primary" value="Promovente (Cliente)"/>                
-                <h:selectOneMenu  styleClass="form-control col-12" id="cliente" value="#{processoMB.clienteSelecionado}">
-                    <f:selectItems value="#{processoMB.getClientes(loginMB.loggedUser)}" var="c" 
-                           itemValue="#{c.id}"
-                           itemLabel="#{c.nome}"/>
-                </h:selectOneMenu >                
-                <br />        
-                <h:outputLabel for="promovida" class="text-primary" value="Promovido"/>                
-                <h:selectOneMenu  styleClass="form-control col-12" id="promovida" value="#{processoMB.promovidaSelecionada}">
-                    <f:selectItems value="#{processoMB.getPromoviveis(loginMB.loggedUser)}" var="p" 
-                           itemValue="#{p.id}"
-                           itemLabel="#{p.nome}"/>
-                </h:selectOneMenu >                
-                <br />    
-                <h:commandButton action="#{processoMB.cancel()}" value="Cancelar" styleClass="btn btn-secondary"/>                
-                <h:commandButton action="#{processoMB.criar()}" value="Criar Processo" styleClass="btn btn-primary"/>  
-            </h:form>     
+            <h:form id="form" rendered="#{loginMB.loggedUser.tipo == 'Advogado'}">
+                <h:outputLabel for="cliente" class="text-primary" value="Promovente (Cliente)"/>
+                <h:selectOneMenu styleClass="form-control col-12" id="cliente" value="#{processoMB.clienteSelecionado}">
+                    <f:selectItems value="#{processoMB.getClientes(loginMB.loggedUser)}" var="c"
+                                   itemValue="#{c.id}"
+                                   itemLabel="#{c.nome}"/>
+                </h:selectOneMenu>
+                <br/>
+                <h:outputLabel for="promovida" class="text-primary" value="Promovido"/>
+                <h:selectOneMenu styleClass="form-control col-12" id="promovida"
+                                 value="#{processoMB.promovidaSelecionada}">
+                    <f:selectItems value="#{processoMB.getPromoviveis(loginMB.loggedUser)}" var="p"
+                                   itemValue="#{p.id}"
+                                   itemLabel="#{p.nome}"/>
+                </h:selectOneMenu>
+                <br/>
+                <h:commandButton action="#{processoMB.cancel()}" value="Cancelar" styleClass="btn btn-secondary"/>
+                <h:commandButton action="#{processoMB.criar()}" value="Criar Processo" styleClass="btn btn-primary"/>
+            </h:form>
         </div>
-        
-        <h:panelGrid rendered="#{loginMB.loggedUser.tipo != 'Advogado'}" columns="1" style="margin: auto; margin-top: 50px; text-align: center;">
-            <h:outputText  value="Você precisa estar logado como Advogado para acessar esta página" />
-            <h:link  outcome="index" >Faça LOGIN aqui</h:link>
+
+        <h:panelGrid rendered="#{loginMB.loggedUser.tipo != 'Advogado'}" columns="1"
+                     style="margin: auto; margin-top: 50px; text-align: center;">
+            <h:outputText value="Você precisa estar logado como Advogado para acessar esta página"/>
+            <h:link outcome="index">Faça LOGIN aqui</h:link>
         </h:panelGrid>
-        
+
     </ui:define>
-    
+
 </ui:composition>

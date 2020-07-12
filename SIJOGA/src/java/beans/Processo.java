@@ -24,12 +24,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 /**
- *
  * @author rfabini
  */
 
 @Entity
-@Table(name="tb_processo")
+@Table(name = "tb_processo")
 public class Processo {
     private Integer id;
     private String status;
@@ -65,9 +64,9 @@ public class Processo {
     public void setVencedor(String vencedor) {
         this.vencedor = vencedor;
     }
-    
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="juiz_id", updatable=true)  
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "juiz_id", updatable = true)
     public Usuario getJuiz() {
         return juiz;
     }
@@ -76,8 +75,8 @@ public class Processo {
         this.juiz = juiz;
     }
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="parte_promovida_id", updatable=true)    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parte_promovida_id", updatable = true)
     public Usuario getPromovida() {
         return promovida;
     }
@@ -86,8 +85,8 @@ public class Processo {
         this.promovida = promovida;
     }
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="parte_promovente_id", updatable=true)    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parte_promovente_id", updatable = true)
     public Usuario getPromovente() {
         return promovente;
     }
@@ -96,7 +95,7 @@ public class Processo {
         this.promovente = promovente;
     }
 
-    @OneToMany(mappedBy="processo", cascade=CascadeType.ALL, fetch=FetchType.EAGER)   
+    @OneToMany(mappedBy = "processo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderBy
     public List<Fase> getFases() {
         return fases;
@@ -106,7 +105,7 @@ public class Processo {
         this.fases = fases;
     }
 
-    @Column(name="dt_criacao")
+    @Column(name = "dt_criacao")
     @Temporal(TemporalType.DATE)
     public Date getDtCriacao() {
         return dtCriacao;
@@ -115,7 +114,6 @@ public class Processo {
     public void setDtCriacao(Date dtCriacao) {
         this.dtCriacao = dtCriacao;
     }
-    
-    
-    
+
+
 }

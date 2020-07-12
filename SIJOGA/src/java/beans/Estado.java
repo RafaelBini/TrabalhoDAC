@@ -16,17 +16,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- *
  * @author rfabini
  */
 @Entity
-@Table(name="tb_estado")
+@Table(name = "tb_estado")
 public class Estado {
     private Integer id;
     private String nome;
     private String abreviatura;
     private List<Cidade> cidades;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
@@ -53,7 +52,7 @@ public class Estado {
         this.abreviatura = abreviatura;
     }
 
-    @OneToMany(mappedBy="estado", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Cidade> getCidades() {
         return cidades;
     }
@@ -62,10 +61,5 @@ public class Estado {
         this.cidades = cidades;
     }
 
-    
-    
-    
-    
-    
-    
+
 }

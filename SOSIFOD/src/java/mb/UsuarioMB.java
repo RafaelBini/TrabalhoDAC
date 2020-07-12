@@ -6,6 +6,7 @@
 package mb;
 
 import beans.Usuario;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -18,18 +19,18 @@ import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
 /**
- *
  * @author mlcab
  */
 @Named(value = "usuarioMB")
 @ConversationScoped
-public class UsuarioMB implements Serializable{
+public class UsuarioMB implements Serializable {
 
     private Usuario usuario;
     private String loginLabelMsg;
@@ -40,7 +41,7 @@ public class UsuarioMB implements Serializable{
     private Conversation conversation;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         FacesMessage msg = new FacesMessage("Comecei o escopo!");
         msg.setSeverity(FacesMessage.SEVERITY_INFO);
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -52,10 +53,10 @@ public class UsuarioMB implements Serializable{
         this.usuario = new Usuario();
 
         // Abre sessao Hibernate
-        Session session = HibernateUtil.getSessionFactory().openSession();        
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        session.getTransaction().commit();           
+        session.getTransaction().commit();
         session.close();
     }
 
@@ -90,98 +91,95 @@ public class UsuarioMB implements Serializable{
     public void setEmailLabelMsg(String emailLabelMsg) {
         this.emailLabelMsg = emailLabelMsg;
     }
-    
-    public void validaUser(){
-        Session session = HibernateUtil.getSessionFactory().openSession();        
+
+    public void validaUser() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query;
         query = session.createQuery("FROM Usuario WHERE login = :username");
-        query.setString("username",this.usuario.getLogin());
+        query.setString("username", this.usuario.getLogin());
         List<Usuario> users = query.list();
-        if (users.isEmpty()){
+        if (users.isEmpty()) {
             this.loginLabelMsg = "";
-        }
-        else{            
+        } else {
             this.loginLabelMsg = "Esse usuário já está sendo usado!";
         }
-        session.getTransaction().commit();           
-        session.close();        
+        session.getTransaction().commit();
+        session.close();
     }
-    
-    public void validaCpf(){
+
+    public void validaCpf() {
         this.cpfLabelMsg = "";
-        Session session = HibernateUtil.getSessionFactory().openSession();        
-        session.beginTransaction(); 
-        Query query;       
-        query = session.createQuery("FROM Usuario WHERE cpf = :cpf");                   
-        query.setString("cpf",this.usuario.getCpf());
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query;
+        query = session.createQuery("FROM Usuario WHERE cpf = :cpf");
+        query.setString("cpf", this.usuario.getCpf());
         List<Usuario> users = query.list();
-        if (users.isEmpty()){
+        if (users.isEmpty()) {
             this.cpfLabelMsg = "";
-        }
-        else{            
+        } else {
             this.cpfLabelMsg = "Esse CPF já foi cadastrado!";
         }
-        session.getTransaction().commit();           
+        session.getTransaction().commit();
         session.close();
-        
+
         // Valida o CPF
-        if(!isCpfValido(this.usuario.getCpf())){
+        if (!isCpfValido(this.usuario.getCpf())) {
             this.cpfLabelMsg = "CPF inválido";
         }
     }
-    
-    public String voltarAdmin(){
+
+    public String voltarAdmin() {
         FacesMessage msg = new FacesMessage("Terminei o escopo!");
         msg.setSeverity(FacesMessage.SEVERITY_INFO);
         FacesContext.getCurrentInstance().addMessage(null, msg);
-        
+
         conversation.end();
-        
+
         return "admin";
     }
-    
-    public String cadastrar(){
-        try{
+
+    public String cadastrar() {
+        try {
             // Valida o CPF
-            if (!this.isCpfValido(this.usuario.getCpf())){
+            if (!this.isCpfValido(this.usuario.getCpf())) {
                 throw new Exception("CPF inválido!");
             }
-            
-            Session session = HibernateUtil.getSessionFactory().openSession();        
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            
+
             // Criptografa a senha      
-            String s= this.usuario.getSenha();
+            String s = this.usuario.getSenha();
             MessageDigest m = MessageDigest.getInstance("MD5");
-            m.update(s.getBytes(),0,s.length());
-            this.usuario.setSenha(new BigInteger(1,m.digest()).toString(16));
-            
+            m.update(s.getBytes(), 0, s.length());
+            this.usuario.setSenha(new BigInteger(1, m.digest()).toString(16));
+
             //Cadastro de Oficial
             //Usuario user = (Usuario)session.get(Usuario.class, oficialUser.getId());
             //this.usuario.setTipo("Oficial");
-            
+
             //Valida o Usuário
             validaUser();
-            if(this.loginLabelMsg.equals("")){
+            if (this.loginLabelMsg.equals("")) {
                 // Salva no bd
                 session.save(this.usuario);
-            }else{
+            } else {
                 throw new Exception(this.loginLabelMsg);
             }
-            
-            
 
-            session.getTransaction().commit();           
-            session.close(); 
-            
+
+            session.getTransaction().commit();
+            session.close();
+
             conversation.end();
-            
-            if ("Oficial".equals(this.usuario.getTipo())){
+
+            if ("Oficial".equals(this.usuario.getTipo())) {
                 FacesMessage msg = new FacesMessage("Oficial Cadastrado!");
                 msg.setSeverity(FacesMessage.SEVERITY_INFO);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-            }else{
+            } else {
                 FacesMessage msg = new FacesMessage("Administrador Cadastrado!");
                 msg.setSeverity(FacesMessage.SEVERITY_INFO);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -194,82 +192,81 @@ public class UsuarioMB implements Serializable{
                 return "index";
             }*/
             return "admin";
-        }
-        catch(Exception hex){
+        } catch (Exception hex) {
             FacesMessage msg = new FacesMessage("Não foi possivel criar o usuário. Veja os erros sinalizados");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            FacesContext.getCurrentInstance().addMessage(null, msg);        
+            FacesContext.getCurrentInstance().addMessage(null, msg);
             return null;
         }
     }
-    
-    public String goCadastrarOficial(){
+
+    public String goCadastrarOficial() {
         return "cadastroOficial";
     }
-    
-    public String goCadastrarAdmin(){
+
+    public String goCadastrarAdmin() {
         return "cadastroAdmin";
     }
-        
-    
-     public String goIntimacoes(){
+
+
+    public String goIntimacoes() {
         return "intimacoes";
     }
-        
-    public boolean isCpfValido(String strCpf){
+
+    public boolean isCpfValido(String strCpf) {
         strCpf = strCpf.replace(".", "").replace("-", "");
-        
-        if (strCpf.equals("")) {  
-            return false;  
-        }  
-        int d1, d2;  
-        int digito1, digito2, resto;  
-        int digitoCPF;  
-        String nDigResult;  
-  
-        d1 = d2 = 0;  
-        digito1 = digito2 = resto = 0;  
-  
-        for (int nCount = 1; nCount < strCpf.length() - 1; nCount++) {  
-            digitoCPF = Integer.valueOf(strCpf.substring(nCount - 1, nCount)).intValue();  
-  
+
+        if (strCpf.equals("")) {
+            return false;
+        }
+        int d1, d2;
+        int digito1, digito2, resto;
+        int digitoCPF;
+        String nDigResult;
+
+        d1 = d2 = 0;
+        digito1 = digito2 = resto = 0;
+
+        for (int nCount = 1; nCount < strCpf.length() - 1; nCount++) {
+            digitoCPF = Integer.valueOf(strCpf.substring(nCount - 1, nCount)).intValue();
+
             //multiplique a ultima casa por 2 a seguinte por 3 a seguinte por 4 e assim por diante.  
-            d1 = d1 + (11 - nCount) * digitoCPF;  
-  
+            d1 = d1 + (11 - nCount) * digitoCPF;
+
             //para o segundo digito repita o procedimento incluindo o primeiro digito calculado no passo anterior.  
-            d2 = d2 + (12 - nCount) * digitoCPF;  
-        }  
-  
+            d2 = d2 + (12 - nCount) * digitoCPF;
+        }
+
         //Primeiro resto da divisão por 11.  
-        resto = (d1 % 11);  
-  
+        resto = (d1 % 11);
+
         //Se o resultado for 0 ou 1 o digito é 0 caso contrário o digito é 11 menos o resultado anterior.  
-        if (resto < 2) {  
-            digito1 = 0;  
-        } else {  
-            digito1 = 11 - resto;  
-        }  
-  
-        d2 += 2 * digito1;  
-  
+        if (resto < 2) {
+            digito1 = 0;
+        } else {
+            digito1 = 11 - resto;
+        }
+
+        d2 += 2 * digito1;
+
         //Segundo resto da divisão por 11.  
-        resto = (d2 % 11);  
-  
+        resto = (d2 % 11);
+
         //Se o resultado for 0 ou 1 o digito é 0 caso contrário o digito é 11 menos o resultado anterior.  
-        if (resto < 2) {  
-            digito2 = 0;  
-        } else {  
-            digito2 = 11 - resto;  
-        }  
-  
+        if (resto < 2) {
+            digito2 = 0;
+        } else {
+            digito2 = 11 - resto;
+        }
+
         //Digito verificador do CPF que está sendo validado.  
-        String nDigVerific = strCpf.substring(strCpf.length() - 2, strCpf.length());  
-  
+        String nDigVerific = strCpf.substring(strCpf.length() - 2, strCpf.length());
+
         //Concatenando o primeiro resto com o segundo.  
-        nDigResult = String.valueOf(digito1) + String.valueOf(digito2);  
-  
+        nDigResult = String.valueOf(digito1) + String.valueOf(digito2);
+
         //comparar o digito verificador do cpf com o primeiro resto + o segundo resto.  
-        return nDigVerific.equals(nDigResult); 
-    }   
-    
+        return nDigVerific.equals(nDigResult);
+    }
+
 }

@@ -6,13 +6,13 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <ui:define name="corpo" >
+
+    <ui:define name="corpo">
         <div style="margin-left: auto; margin-right: auto; margin-top: 2%; margin-bottom: 2%; width: 900px;">
             <h:form id="form">
                 <div class="form-group row">
@@ -41,35 +41,38 @@ and open the template in the editor.
                         <h:outputText class="form-control" id="processo" value="#{intimacaoMB.intimacao.numProcesso}"/>
                     </div>
                 </div>
-                <br />
-                <hr />
-                <br />
+                <br/>
+                <hr/>
+                <br/>
                 <div class="form-group">
                     <label class="text-primary " for="status">Estado da Intimação:</label>
                     <h:selectOneRadio id="status" value="#{intimacaoMB.intimacao.status}" layout="pageDirection">
-                        <f:selectItem itemDisabled="true" id="Efetuada" itemLabel="Efetuada" itemValue="Efetuada" />
-                        <f:selectItem itemDisabled="true" id="Nao-efetuada" itemLabel="Não efetuada" itemValue="Não efetuada" />
+                        <f:selectItem itemDisabled="true" id="Efetuada" itemLabel="Efetuada" itemValue="Efetuada"/>
+                        <f:selectItem itemDisabled="true" id="Nao-efetuada" itemLabel="Não efetuada"
+                                      itemValue="Não efetuada"/>
                     </h:selectOneRadio>
                 </div>
                 <div class="form-group row">
                     <label class="text-primary col-3 col-form-label" for="oficial">Data/Hora da Intimação:</label>
                     <div class="col-3">
-                        <h:outputText class="form-control" id="dtIntimacao" value="#{intimacaoMB.intimacao.dtIntimacao}" >
+                        <h:outputText class="form-control" id="dtIntimacao"
+                                      value="#{intimacaoMB.intimacao.dtIntimacao}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"/>
-                        </h:outputText> 
+                        </h:outputText>
                     </div>
                     <label class="text-primary col-3 col-form-label" for="oficial">Data/Hora da Execução:</label>
                     <div class="col-3" id="teste">
-                        <h:outputText class="form-control" id="dtExecucao" value="#{intimacaoMB.intimacao.dtExecucao}" >
+                        <h:outputText class="form-control" id="dtExecucao" value="#{intimacaoMB.intimacao.dtExecucao}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"/>
-                        </h:outputText>  
+                        </h:outputText>
                     </div>
                     <div class="form-group" style="padding: 20px; text-align: center;">
-                        <h:commandButton action="#{intimacaoMB.voltar()}" class="btn bg-secondary text-white" value="Voltar" />                        
+                        <h:commandButton action="#{intimacaoMB.voltar()}" class="btn bg-secondary text-white"
+                                         value="Voltar"/>
                     </div>
                 </div>
             </h:form>
         </div>
     </ui:define>
-    
+
 </ui:composition>

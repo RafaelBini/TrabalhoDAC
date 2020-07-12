@@ -6,80 +6,84 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-        
-    
-    <ui:define name="corpo" >
-        
-        <h:form rendered="#{loginMB.loggedUser.tipo == 'Parte'}"> 
-                
-            <h:commandButton styleClass="btn btn-secondary" action="#{relatorioMB.gerarRelatorio()}" value="Gerar Relatório" />
-           
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+    <ui:define name="corpo">
+
+        <h:form rendered="#{loginMB.loggedUser.tipo == 'Parte'}">
+
+            <h:commandButton styleClass="btn btn-secondary" action="#{relatorioMB.gerarRelatorio()}"
+                             value="Gerar Relatório"/>
+
             <h:dataTable id="processos" value="#{filtroMB.processos}"
                          var="p"
                          style="width: 100%; text-align: center; font-size: 16px"
                          styleClass="table">
-                <f:facet name="header" >
-                    <h2><h:outputText value="Meus Processos" /></h2>
+                <f:facet name="header">
+                    <h2>
+                        <h:outputText value="Meus Processos"/>
+                    </h2>
                 </f:facet>
                 <p:column>
-                   <f:facet name="header" >
-                       <h:outputText value="ID" />
-                   </f:facet>
+                    <f:facet name="header">
+                        <h:outputText value="ID"/>
+                    </f:facet>
                     #{p.id}
-               </p:column>
+                </p:column>
                 <p:column>
-                   <f:facet name="header" >
-                       <h:outputText value="Data" />
-                   </f:facet>
-                <h:outputText value="#{p.dtCriacao}" >
-                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                </h:outputText>                    
-               </p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Data"/>
+                    </f:facet>
+                    <h:outputText value="#{p.dtCriacao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
                 <p:column>
-                   <f:facet name="header" >
-                       <h:outputText value="Atuação" />
-                   </f:facet>
-                   #{p.promovente.id == loginMB.loggedUser.id ? "Promovente" : "Promovida"}
-               </p:column>
-               <p:column>
-                   <f:facet name="header" >
-                       <h:outputText value="Parte Oposta" />
-                   </f:facet>
-                   #{p.promovente.id == loginMB.loggedUser.id ? p.promovida.nome.concat(" (Promovida)") : p.promovente.nome.concat(" (Promovente)") }
-               </p:column>
-               <p:column>
-                   <f:facet name="header" >
-                       <h:outputText value="Status" />
-                   </f:facet>
-                   #{p.status}
-               </p:column>
-               <p:column>
-                   <f:facet name="header" >
-                       <h:outputText value="Resultado" />
-                   </f:facet>
-                   #{filtroMB.getResultado(p)}
-               </p:column>                
-               <p:column>
-                   <f:facet name="header" >
-                       <h:outputText value="Ações" />
-                   </f:facet>
-                   <h:commandButton action="#{faseMB.goFases(p)}" styleClass="btn btn-primary" value="Ver Fases" />
-               </p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Atuação"/>
+                    </f:facet>
+                    #{p.promovente.id == loginMB.loggedUser.id ? "Promovente" : "Promovida"}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Parte Oposta"/>
+                    </f:facet>
+                    #{p.promovente.id == loginMB.loggedUser.id ? p.promovida.nome.concat(" (Promovida)") : p.promovente.nome.concat(" (Promovente)") }
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Status"/>
+                    </f:facet>
+                    #{p.status}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Resultado"/>
+                    </f:facet>
+                    #{filtroMB.getResultado(p)}
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Ações"/>
+                    </f:facet>
+                    <h:commandButton action="#{faseMB.goFases(p)}" styleClass="btn btn-primary" value="Ver Fases"/>
+                </p:column>
             </h:dataTable>
-            
 
-        </h:form>     
-        
-        
-        <h:panelGrid rendered="#{loginMB.loggedUser.tipo != 'Parte'}" columns="1" style="margin: auto; margin-top: 50px; text-align: center;">
-            <h:outputText  value="Você precisa estar logado como Parte para acessar esta página" />
-            <h:link  outcome="index" >Faça LOGIN aqui</h:link>
+
+        </h:form>
+
+
+        <h:panelGrid rendered="#{loginMB.loggedUser.tipo != 'Parte'}" columns="1"
+                     style="margin: auto; margin-top: 50px; text-align: center;">
+            <h:outputText value="Você precisa estar logado como Parte para acessar esta página"/>
+            <h:link outcome="index">Faça LOGIN aqui</h:link>
         </h:panelGrid>
-        
+
     </ui:define>
-    
+
 </ui:composition>

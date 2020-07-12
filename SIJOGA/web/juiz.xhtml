@@ -6,19 +6,23 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-        
-    
-    <ui:define name="corpo" >
-        
-        <h:form rendered="#{loginMB.loggedUser.tipo == 'Juíz'}"> 
-            
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+    <ui:define name="corpo">
+
+        <h:form rendered="#{loginMB.loggedUser.tipo == 'Juíz'}">
+
             <table style="width: 100%; text-align: center; font-size: 16px" class="table">
                 <tr>
-                    <td colspan="6"><h2><h:outputText value="Meus Processos" /></h2></td>
+                    <td colspan="6">
+                        <h2>
+                            <h:outputText value="Meus Processos"/>
+                        </h2>
+                    </td>
                 </tr>
                 <tr>
                     <td>ID</td>
@@ -32,29 +36,33 @@ and open the template in the editor.
                     <tr style="background-color: #{p.status == 'Aguardando Juíz' ? 'red' : 'white'}">
                         <td>#{p.id}</td>
                         <td>
-                            <h:outputText value="#{p.dtCriacao}" >
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>   
+                            <h:outputText value="#{p.dtCriacao}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
                         </td>
                         <td>#{p.promovente.nome}</td>
                         <td>#{p.promovida.nome}</td>
                         <td>#{p.status}</td>
                         <td>
-                            <h:commandButton action="#{faseMB.goFases(p)}" styleClass="btn btn-secondary" value="Detalhes" />
-                            <h:commandButton rendered="#{p.status == 'Aguardando Juíz'}" action="#{faseMB.goDeliberar(faseMB.getUltimaFase(p))}" styleClass="btn btn-primary" value="Deliberar" />
+                            <h:commandButton action="#{faseMB.goFases(p)}" styleClass="btn btn-secondary"
+                                             value="Detalhes"/>
+                            <h:commandButton rendered="#{p.status == 'Aguardando Juíz'}"
+                                             action="#{faseMB.goDeliberar(faseMB.getUltimaFase(p))}"
+                                             styleClass="btn btn-primary" value="Deliberar"/>
                         </td>
                     </tr>
                 </ui:repeat>
-            </table>            
+            </table>
 
-        </h:form>     
-        
-        
-        <h:panelGrid rendered="#{loginMB.loggedUser.tipo != 'Juíz'}" columns="1" style="margin: auto; margin-top: 50px; text-align: center;">
-            <h:outputText  value="Você precisa estar logado como Juíz para acessar esta página" />
-            <h:link  outcome="index" >Faça LOGIN aqui</h:link>
+        </h:form>
+
+
+        <h:panelGrid rendered="#{loginMB.loggedUser.tipo != 'Juíz'}" columns="1"
+                     style="margin: auto; margin-top: 50px; text-align: center;">
+            <h:outputText value="Você precisa estar logado como Juíz para acessar esta página"/>
+            <h:link outcome="index">Faça LOGIN aqui</h:link>
         </h:panelGrid>
-        
+
     </ui:define>
-    
+
 </ui:composition>

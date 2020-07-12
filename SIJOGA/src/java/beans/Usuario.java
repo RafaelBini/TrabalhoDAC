@@ -22,18 +22,17 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 /**
- *
  * @author rfabini
  */
 @Entity
 @Table(
-        name="tb_usuario",
+        name = "tb_usuario",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"login"}),
-            @UniqueConstraint(columnNames = {"cpf"})
+                @UniqueConstraint(columnNames = {"login"}),
+                @UniqueConstraint(columnNames = {"cpf"})
         }
 )
-public class Usuario {   
+public class Usuario {
 
     private Long id;
     private String login;
@@ -47,11 +46,11 @@ public class Usuario {
     private Cidade cidade;
     private Usuario advogado;
     private List<Usuario> clientes;
-    private List<Processo> promovidaProcessos;    
+    private List<Processo> promovidaProcessos;
     private List<Processo> promoventeProcessos;
     private List<Processo> juizProcessos;
     private List<Fase> fasesCriadas;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
@@ -67,7 +66,7 @@ public class Usuario {
         return nome;
     }
 
-    @Column(unique = true)    
+    @Column(unique = true)
     @NotNull()
     public String getCpf() {
         return cpf;
@@ -99,7 +98,6 @@ public class Usuario {
     }
 
 
-
     public String getEmail() {
         return email;
     }
@@ -123,9 +121,9 @@ public class Usuario {
     public void setNumero(Long numero) {
         this.numero = numero;
     }
-    
+
     @ManyToOne
-    @JoinColumn(name="cidade_id")
+    @JoinColumn(name = "cidade_id")
     public Cidade getCidade() {
         return cidade;
     }
@@ -133,7 +131,7 @@ public class Usuario {
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
     }
-    
+
     @Column(unique = true)
     @NotNull()
     public String getLogin() {
@@ -144,8 +142,8 @@ public class Usuario {
         this.login = login;
     }
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="advogado_id", updatable=true)    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "advogado_id", updatable = true)
     public Usuario getAdvogado() {
         return advogado;
     }
@@ -154,7 +152,7 @@ public class Usuario {
         this.advogado = advogado;
     }
 
-    @OneToMany(mappedBy="advogado", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "advogado", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Usuario> getClientes() {
         return clientes;
     }
@@ -163,7 +161,7 @@ public class Usuario {
         this.clientes = clientes;
     }
 
-    @OneToMany(mappedBy="promovida", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "promovida", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Processo> getPromovidaProcessos() {
         return promovidaProcessos;
     }
@@ -172,7 +170,7 @@ public class Usuario {
         this.promovidaProcessos = promovidaProcessos;
     }
 
-    @OneToMany(mappedBy="promovente", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "promovente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Processo> getPromoventeProcessos() {
         return promoventeProcessos;
     }
@@ -181,7 +179,7 @@ public class Usuario {
         this.promoventeProcessos = promoventeProcessos;
     }
 
-    @OneToMany(mappedBy="juiz", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "juiz", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Processo> getJuizProcessos() {
         return juizProcessos;
     }
@@ -190,7 +188,7 @@ public class Usuario {
         this.juizProcessos = juizProcessos;
     }
 
-     @OneToMany(mappedBy="criador", cascade=CascadeType.ALL, fetch=FetchType.EAGER)   
+    @OneToMany(mappedBy = "criador", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Fase> getFasesCriadas() {
         return fasesCriadas;
     }
@@ -200,8 +198,4 @@ public class Usuario {
     }
 
 
-    
-    
-    
-    
 }

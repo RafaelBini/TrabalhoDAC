@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <!--
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
@@ -40,16 +41,16 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/SIJOGA</property>
-    <property name="hibernate.connection.username">postgres</property>
-    <property name="hibernate.connection.password">tads240400</property>
-    <mapping class="beans.Usuario"/>
-    <mapping class="beans.Cidade"/>
-    <mapping class="beans.Estado"/>
-    <mapping class="beans.Fase"/>
-    <mapping class="beans.Processo"/>
-  </session-factory>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/SIJOGA</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">tads240400</property>
+        <mapping class="beans.Usuario"/>
+        <mapping class="beans.Cidade"/>
+        <mapping class="beans.Estado"/>
+        <mapping class="beans.Fase"/>
+        <mapping class="beans.Processo"/>
+    </session-factory>
 </hibernate-configuration>

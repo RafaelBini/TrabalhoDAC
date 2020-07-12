@@ -19,12 +19,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- *
  * @author rfabini
  */
 
 @Entity
-@Table(name="tb_fase")
+@Table(name = "tb_fase")
 public class Fase {
     private Integer id;
     private Processo processo;
@@ -47,8 +46,8 @@ public class Fase {
         this.id = id;
     }
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="processo_id", updatable=true) 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "processo_id", updatable = true)
     public Processo getProcesso() {
         return processo;
     }
@@ -57,8 +56,8 @@ public class Fase {
         this.processo = processo;
     }
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="criador_id", updatable=true)  
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "criador_id", updatable = true)
     public Usuario getCriador() {
         return criador;
     }
@@ -67,7 +66,7 @@ public class Fase {
         this.criador = criador;
     }
 
-    @Column(name="dt_criacao")
+    @Column(name = "dt_criacao")
     @Temporal(TemporalType.TIMESTAMP)
     public Date getDtCriacao() {
         return dtCriacao;
@@ -93,7 +92,7 @@ public class Fase {
         this.descricao = descricao;
     }
 
-    @Column(name="caminho_arquivo")
+    @Column(name = "caminho_arquivo")
     public String getCaminhoArquivo() {
         return caminhoArquivo;
     }
@@ -118,7 +117,7 @@ public class Fase {
         this.resposta = resposta;
     }
 
-    @Column(name="justificativa_resposta")
+    @Column(name = "justificativa_resposta")
     public String getJustificativaResposta() {
         return justificativaResposta;
     }
@@ -126,10 +125,6 @@ public class Fase {
     public void setJustificativaResposta(String justificativaResposta) {
         this.justificativaResposta = justificativaResposta;
     }
-    
-    
-    
-    
-            
-    
+
+
 }

@@ -6,35 +6,39 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    
-    
-    <ui:define name="corpo" >
-        <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Admin'}" styleClass="btn btn-primary" action="#{intimacaoMB.goCadastrar()}" value="Nova Intimação"/>
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+    <ui:define name="corpo">
+        <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Admin'}" styleClass="btn btn-primary"
+                         action="#{intimacaoMB.goCadastrar()}" value="Nova Intimação"/>
         <br/>
         <h:form>
             <h:dataTable id="intimacoes" value="#{intimacaoMB.intimacoes}"
                          var="i"
                          style="width: 100%; text-align: center; font-size: 16px"
                          styleClass="table">
-                <f:facet name="header" >
-                    <h2><h:outputText value="Intimações" /></h2>
+                <f:facet name="header">
+                    <h2>
+                        <h:outputText value="Intimações"/>
+                    </h2>
                 </f:facet>
                 <p:column>
-                    <f:facet name="header" >
-                       <h:outputText value="ID" />
+                    <f:facet name="header">
+                        <h:outputText value="ID"/>
                     </f:facet>
                     #{i.id}
                 </p:column>
                 <p:column>
-                    <f:facet name="header" >
-                       <h:outputText value="Data/Hora da Intimação" />
+                    <f:facet name="header">
+                        <h:outputText value="Data/Hora da Intimação"/>
                     </f:facet>
                     <h:outputText value="#{i.dtIntimacao}">
-                        <f:convertDateTime locale="pt_BR" dateStyle="long" pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"/>
+                        <f:convertDateTime locale="pt_BR" dateStyle="long" pattern="dd/MM/yyyy HH:mm:ss"
+                                           timeZone="GMT-03:00"/>
                     </h:outputText>
                 </p:column>
                 <p:column>
@@ -52,14 +56,21 @@ and open the template in the editor.
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Ações"/>
-                    </f:facet>                    
-                    <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Oficial'}" styleClass="btn btn-secondary" action="#{intimacaoMB.goVisualizar(i)}" value="Visualizar"/>                                    
-                    <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Admin'}" image="resources/images/visualizar.png" action="#{intimacaoMB.goVisualizar(i)}" value="Visualizar" style="height: 15px;"/>
-                    <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Admin'}" image="resources/images/editar.png" action="#{intimacaoMB.goEditar(i)}" value="Editar" style="height: 20px;"/>
-                    <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Admin'}" image="resources/images/excluir.png" action="#{intimacaoMB.excluir(i)}" value="Excluir" style="height: 20px;"/>
+                    </f:facet>
+                    <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Oficial'}" styleClass="btn btn-secondary"
+                                     action="#{intimacaoMB.goVisualizar(i)}" value="Visualizar"/>
+                    <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Admin'}"
+                                     image="resources/images/visualizar.png" action="#{intimacaoMB.goVisualizar(i)}"
+                                     value="Visualizar" style="height: 15px;"/>
+                    <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Admin'}"
+                                     image="resources/images/editar.png" action="#{intimacaoMB.goEditar(i)}"
+                                     value="Editar" style="height: 20px;"/>
+                    <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Admin'}"
+                                     image="resources/images/excluir.png" action="#{intimacaoMB.excluir(i)}"
+                                     value="Excluir" style="height: 20px;"/>
                     <h:commandButton styleClass="btn btn-primary" action="#{intimacaoMB.executar(i)}" value="Executar"/>
                 </p:column>
             </h:dataTable>
         </h:form>
-    </ui:define>   
+    </ui:define>
 </ui:composition>

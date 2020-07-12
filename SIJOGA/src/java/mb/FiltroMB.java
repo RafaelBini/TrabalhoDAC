@@ -8,6 +8,7 @@ package mb;
 import beans.Fase;
 import beans.Processo;
 import beans.Usuario;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -19,57 +20,57 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
 /**
- *
  * @author rfabini
  */
-@Named(value="filtroMB")
+@Named(value = "filtroMB")
 @ViewScoped()
 public class FiltroMB implements Serializable {
     private String filtroStatus;
     private String filtroAtuacao;
-    private String filtroResultado;   
+    private String filtroResultado;
     private List<Processo> processos;
-    
-    @PostConstruct
-    public void init(){
- 
-        loadProcessos();
-    }   
 
-    
-    public void loadProcessos(){
-         // Recebe o usuario logado
+    @PostConstruct
+    public void init() {
+
+        loadProcessos();
+    }
+
+
+    public void loadProcessos() {
+        // Recebe o usuario logado
         FacesContext context = FacesContext.getCurrentInstance();
         Usuario loggedUser = (Usuario) context.getApplication().getExpressionFactory()
-        .createValueExpression(context.getELContext(), "#{loginMB.loggedUser}", Usuario.class)
-        .getValue(context.getELContext());       
-                  
-                
+                .createValueExpression(context.getELContext(), "#{loginMB.loggedUser}", Usuario.class)
+                .getValue(context.getELContext());
+
+
         // Abre sessao
-        Session session = HibernateUtil.getSessionFactory().openSession();        
-        session.beginTransaction();   
-        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
         // Se é parte,
-        if ("Parte".equals(loggedUser.getTipo())){
+        if ("Parte".equals(loggedUser.getTipo())) {
             // Recebe todos os processos
             Query query = session.createQuery("FROM Processo p WHERE p.promovente.id = :id OR p.promovida.id = :id ORDER BY p.id");
             query.setLong("id", loggedUser.getId());
-            this.processos = query.list();            
-        }        
+            this.processos = query.list();
+        }
         // Se é juiz,
-        if ("Juíz".equals(loggedUser.getTipo())){
+        if ("Juíz".equals(loggedUser.getTipo())) {
             // Recebe todos os processos
             Query query = session.createQuery("FROM Processo p WHERE p.juiz.id = :id ORDER BY p.id");
             query.setLong("id", loggedUser.getId());
-            this.processos = query.list();            
+            this.processos = query.list();
         }
         // Se é adovogado,
-        else if ("Advogado".equals(loggedUser.getTipo())){
+        else if ("Advogado".equals(loggedUser.getTipo())) {
 
             // Inicializa os filtros
             String fs = "";
@@ -77,94 +78,89 @@ public class FiltroMB implements Serializable {
             String fr = "";
 
             // Filtra Status
-            if (!"Todos".equals(this.filtroStatus)){
-                if ("Aberto".equals(this.filtroStatus)){
+            if (!"Todos".equals(this.filtroStatus)) {
+                if ("Aberto".equals(this.filtroStatus)) {
                     fs = " AND p.status != 'Encerrado' ";
-                }
-                else if ("Encerrado".equals(this.filtroStatus)){
+                } else if ("Encerrado".equals(this.filtroStatus)) {
                     fs = " AND p.status = 'Encerrado' ";
-                }            
+                }
             }
 
             // Filtra Atuação
-            if (!"Todos".equals(this.filtroAtuacao)){
-                if ("Promovente".equals(this.filtroAtuacao)){
+            if (!"Todos".equals(this.filtroAtuacao)) {
+                if ("Promovente".equals(this.filtroAtuacao)) {
                     fa = " AND p.promovente.advogado.id = :id ";
-                }
-                else if ("Promovido".equals(this.filtroAtuacao)){
+                } else if ("Promovido".equals(this.filtroAtuacao)) {
                     fa = " AND p.promovida.advogado.id = :id ";
-                }            
+                }
             }
 
             // Filtra Resultado
-            if (!"Todos".equals(this.filtroResultado)){
-                if ("Ganhei".equals(this.filtroResultado)){
+            if (!"Todos".equals(this.filtroResultado)) {
+                if ("Ganhei".equals(this.filtroResultado)) {
                     fr = " AND ((p.promovente.advogado.id = :id AND p.vencedor = 'Promovente') OR (p.promovida.advogado.id = :id AND p.vencedor = 'Promovido')) ";
-                }
-                else if ("Perdi".equals(this.filtroResultado)){
+                } else if ("Perdi".equals(this.filtroResultado)) {
                     fr = " AND ((p.promovente.advogado.id = :id AND p.vencedor = 'Promovido') OR (p.promovida.advogado.id = :id AND p.vencedor = 'Promovente')) ";
-                }            
-            }               
+                }
+            }
 
             // Recebe todos os processos
             Query query = session.createQuery("FROM Processo p WHERE (p.promovente.advogado.id = :id OR p.promovida.advogado.id = :id) " + fs + fa + fr + " ORDER BY p.id");
             query.setLong("id", loggedUser.getId());
             this.processos = query.list();
-        
+
         }
-        
+
         // Fecha sessao
-        session.getTransaction().commit();           
-        session.close();          
+        session.getTransaction().commit();
+        session.close();
     }
-    
-    public String getResultado(Processo p){
-         // Recebe o usuario logado
+
+    public String getResultado(Processo p) {
+        // Recebe o usuario logado
         FacesContext context = FacesContext.getCurrentInstance();
         Usuario loggedUser = (Usuario) context.getApplication().getExpressionFactory()
-        .createValueExpression(context.getELContext(), "#{loginMB.loggedUser}", Usuario.class)
-        .getValue(context.getELContext());    
-        
+                .createValueExpression(context.getELContext(), "#{loginMB.loggedUser}", Usuario.class)
+                .getValue(context.getELContext());
+
         // Se sou Advogado,
-        if ("Advogado".equals(loggedUser.getTipo())){
+        if ("Advogado".equals(loggedUser.getTipo())) {
             // Se venci
-           if ((p.getPromovente().getAdvogado().getId() == loggedUser.getId() 
-                   && "Promovente".equals(p.getVencedor())) 
-                   || (p.getPromovida().getAdvogado().getId() == loggedUser.getId() 
-                   && "Promovido".equals(p.getVencedor()))){
+            if ((p.getPromovente().getAdvogado().getId() == loggedUser.getId()
+                    && "Promovente".equals(p.getVencedor()))
+                    || (p.getPromovida().getAdvogado().getId() == loggedUser.getId()
+                    && "Promovido".equals(p.getVencedor()))) {
 
-               return "Ganhei";
+                return "Ganhei";
 
-           }
-           else if ((p.getPromovente().getAdvogado().getId() == loggedUser.getId() 
-                   && "Promovido".equals(p.getVencedor())) 
-                   || (p.getPromovida().getAdvogado().getId() == loggedUser.getId() 
-                   && "Promovente".equals(p.getVencedor()))){
-               return "Perdi";
-           }         
+            } else if ((p.getPromovente().getAdvogado().getId() == loggedUser.getId()
+                    && "Promovido".equals(p.getVencedor()))
+                    || (p.getPromovida().getAdvogado().getId() == loggedUser.getId()
+                    && "Promovente".equals(p.getVencedor()))) {
+                return "Perdi";
+            }
         }
         // Se sou parte
-        else if ("Parte".equals(loggedUser.getTipo())){
+        else if ("Parte".equals(loggedUser.getTipo())) {
             // Se venci
-           if ((p.getPromovente().getId() == loggedUser.getId() 
-                   && "Promovente".equals(p.getVencedor())) 
-                   || (p.getPromovida().getId() == loggedUser.getId() 
-                   && "Promovido".equals(p.getVencedor()))){
+            if ((p.getPromovente().getId() == loggedUser.getId()
+                    && "Promovente".equals(p.getVencedor()))
+                    || (p.getPromovida().getId() == loggedUser.getId()
+                    && "Promovido".equals(p.getVencedor()))) {
 
-               return "Ganhei";
+                return "Ganhei";
 
-           }
-           else if ((p.getPromovente().getId() == loggedUser.getId() 
-                   && "Promovido".equals(p.getVencedor())) 
-                   || (p.getPromovida().getId() == loggedUser.getId() 
-                   && "Promovente".equals(p.getVencedor()))){
-               return "Perdi";
-           }      
+            } else if ((p.getPromovente().getId() == loggedUser.getId()
+                    && "Promovido".equals(p.getVencedor()))
+                    || (p.getPromovida().getId() == loggedUser.getId()
+                    && "Promovente".equals(p.getVencedor()))) {
+                return "Perdi";
+            }
         }
-  
-        
+
+
         return "-";
-        
+
     }
 
     public String getFiltroStatus() {
@@ -200,7 +196,4 @@ public class FiltroMB implements Serializable {
     }
 
 
-    
-    
-    
 }

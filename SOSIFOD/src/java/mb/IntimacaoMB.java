@@ -7,6 +7,7 @@ package mb;
 
 import beans.Intimacao;
 import beans.Usuario;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -21,18 +22,18 @@ import javax.inject.Named;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
 /**
- *
  * @author mlcab
  */
 @Named(value = "intimacaoMB")
 @ConversationScoped()
-public class IntimacaoMB implements Serializable{
+public class IntimacaoMB implements Serializable {
     private Intimacao intimacao;
     private String status;
     private List<Intimacao> intimacoes;
@@ -42,13 +43,13 @@ public class IntimacaoMB implements Serializable{
     private List<String> nomeOficial;
     private List<Usuario> users;
     private int oficialSelecionado;
-    
+
     @Inject
     private Conversation conversation;
-    
+
     @PostConstruct
-    public void init(){
-        
+    public void init() {
+
         // Inicializa o escopo
         conversation.begin();
 
@@ -59,143 +60,143 @@ public class IntimacaoMB implements Serializable{
         users = buscaOficiais();
         loadIntimacoes();
     }
-    
-    public String loadIntimacoes(){
+
+    public String loadIntimacoes() {
         // Recebe o usuario logado
         FacesContext context = FacesContext.getCurrentInstance();
         Usuario loggedUser = (Usuario) context.getApplication().getExpressionFactory()
-        .createValueExpression(context.getELContext(), "#{loginMB.loggedUser}", Usuario.class)
-        .getValue(context.getELContext());
-        
+                .createValueExpression(context.getELContext(), "#{loginMB.loggedUser}", Usuario.class)
+                .getValue(context.getELContext());
+
         // Abre sessao
-        Session session = HibernateUtil.getSessionFactory().openSession();        
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
-        if("Admin".equals(loggedUser.getTipo())){
+
+        if ("Admin".equals(loggedUser.getTipo())) {
             // Recebe todas as intimações
             Query query;
-            query = session.createQuery("FROM Intimacao order by id_intimacao");                   
+            query = session.createQuery("FROM Intimacao order by id_intimacao");
             this.intimacoes = query.list();
         }
-        
-        if("Oficial".equals(loggedUser.getTipo())){
+
+        if ("Oficial".equals(loggedUser.getTipo())) {
             // Recebe as intimações ligadas ao oficial
-            Query query;      
-            query = session.createQuery("FROM Intimacao WHERE oficial.id = :id order by id_intimacao");                   
+            Query query;
+            query = session.createQuery("FROM Intimacao WHERE oficial.id = :id order by id_intimacao");
             query.setLong("id", loggedUser.getId());
             this.intimacoes = query.list();
-            
+
         }
-        
-        
-        session.getTransaction().commit();           
-        session.close(); 
-        
+
+
+        session.getTransaction().commit();
+        session.close();
+
         return "intimacoes";
     }
-    
-    public List<Usuario> buscaOficiais(){
+
+    public List<Usuario> buscaOficiais() {
         List<Usuario> oficiais;
         List<String> nOficial = new ArrayList<String>();
-        
-        Session session = HibernateUtil.getSessionFactory().openSession();        
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
-        Query query;      
-        query = session.createQuery("FROM Usuario WHERE tipo = :tipo");                   
+
+        Query query;
+        query = session.createQuery("FROM Usuario WHERE tipo = :tipo");
         query.setString("tipo", "Oficial");
         oficiais = query.list();
-            
-        session.getTransaction().commit();           
+
+        session.getTransaction().commit();
         session.close();
-        
+
         return oficiais;
     }
-        
-    
-    public void executar(Intimacao i){
+
+
+    public void executar(Intimacao i) {
         this.intimacao = i;
         List<Intimacao> buscarIntimacoes;
-        
-        Session session = HibernateUtil.getSessionFactory().openSession();        
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
-        Query query;      
-        query = session.createQuery("FROM Intimacao WHERE id = :id"); 
+
+        Query query;
+        query = session.createQuery("FROM Intimacao WHERE id = :id");
         query.setLong("id", i.getId());
         buscarIntimacoes = query.list();
         Intimacao intimacao = buscarIntimacoes.get(0);
-        
-        if(intimacao.getStatus().equals("Não efetuada")){
+
+        if (intimacao.getStatus().equals("Não efetuada")) {
             intimacao.setStatus("Efetuada");
             Date date = new Date();
             intimacao.setDtExecucao(date);
             session.update(intimacao);
-            
-            session.getTransaction().commit();           
-            session.close(); 
-            
+
+            session.getTransaction().commit();
+            session.close();
+
             conversation.end();
-            
+
             FacesMessage msg = new FacesMessage("Intimação Executada!");
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        }else{
-            session.getTransaction().commit();           
-            session.close(); 
-            
+        } else {
+            session.getTransaction().commit();
+            session.close();
+
             conversation.end();
-            
+
             FacesMessage msg = new FacesMessage("A intimação já foi executada!");
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-        
-        
+
+
     }
-    
-    public boolean executada(Intimacao i){
+
+    public boolean executada(Intimacao i) {
         this.intimacao = i;
         List<Intimacao> buscarIntimacoes;
-        
-        Session session = HibernateUtil.getSessionFactory().openSession();        
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
-        Query query;      
-        query = session.createQuery("FROM Intimacao WHERE id = :id"); 
+
+        Query query;
+        query = session.createQuery("FROM Intimacao WHERE id = :id");
         query.setLong("id", i.getId());
         buscarIntimacoes = query.list();
         Intimacao intimacao = buscarIntimacoes.get(0);
-        
-        session.getTransaction().commit();           
+
+        session.getTransaction().commit();
         session.close();
-        
-        return (intimacao.getStatus().equals("Efetuada")); 
+
+        return (intimacao.getStatus().equals("Efetuada"));
     }
-    
-    public void excluir(Intimacao i){
+
+    public void excluir(Intimacao i) {
         this.intimacao = i;
         List<Intimacao> buscarIntimacoes;
-        
-        Session session = HibernateUtil.getSessionFactory().openSession();        
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        
+
         Query query;
         query = session.createQuery("DELETE FROM Intimacao WHERE id = :id");
         query.setLong("id", i.getId());
         int rows = query.executeUpdate();
-        
-        
-        for(Intimacao intima : this.intimacoes){
-            if(intima.getId() == i.getId()){
+
+
+        for (Intimacao intima : this.intimacoes) {
+            if (intima.getId() == i.getId()) {
                 this.intimacoes.remove(i);
                 break;
             }
         }
-        
-        
-        session.getTransaction().commit();           
-        session.close(); 
+
+
+        session.getTransaction().commit();
+        session.close();
 
         conversation.end();
 
@@ -203,41 +204,41 @@ public class IntimacaoMB implements Serializable{
         msg.setSeverity(FacesMessage.SEVERITY_INFO);
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    
-    public String goVisualizar(Intimacao i){
+
+    public String goVisualizar(Intimacao i) {
         this.intimacao = i;
         return "visualizar";
     }
-    
-    public String goEditar(Intimacao i){
+
+    public String goEditar(Intimacao i) {
         this.intimacao = i;
         return "editar";
     }
-    
-    public String goCadastrar(){
+
+    public String goCadastrar() {
         return "novaIntimacao";
     }
-    
-    public String voltar(){
+
+    public String voltar() {
         conversation.end();
         return "intimacoes";
     }
-    
-    public String cadastrar() throws Exception{
-        try{
+
+    public String cadastrar() throws Exception {
+        try {
             // Valida o CPF
-            if (!this.isCpfValid(this.intimacao.getCpf())){
+            if (!this.isCpfValid(this.intimacao.getCpf())) {
                 throw new Exception("CPF inválido!");
             }
-            
+
             List<Intimacao> buscarIntimacoes;
             List<Usuario> ofi;
-                
-            Session session = HibernateUtil.getSessionFactory().openSession();        
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            
+
             // Query para alteração de oficial
-            Query query;      
+            Query query;
             query = session.createQuery("FROM Usuario WHERE id = :id");
             query.setLong("id", oficialSelecionado);
             ofi = query.list();
@@ -245,53 +246,50 @@ public class IntimacaoMB implements Serializable{
 
             Date date = new Date();
             // Se o status da Intimação for alterado para "Executada"
-            if(this.intimacao.getStatus().equals("Efetuada")){
+            if (this.intimacao.getStatus().equals("Efetuada")) {
                 this.intimacao.setDtIntimacao(date);
                 this.intimacao.setDtExecucao(date);
-            }else{            
+            } else {
                 this.intimacao.setDtIntimacao(date);
             }
-                
-            
-            
-            
+
+
             // Salva no bd
             session.save(this.intimacao);
-            
+
             this.intimacoes.add(this.intimacao);
 
-            session.getTransaction().commit();           
-            session.close(); 
-            
+            session.getTransaction().commit();
+            session.close();
+
             conversation.end();
-            
+
             FacesMessage msg = new FacesMessage("Intimação Criada Com Sucesso!");
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            
+
             return "intimacoes";
-        }
-        catch(HibernateException hex){
+        } catch (HibernateException hex) {
             FacesMessage msg = new FacesMessage("Não foi possivel criar a intimação. Veja os erros sinalizados");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            FacesContext.getCurrentInstance().addMessage(null, msg);        
+            FacesContext.getCurrentInstance().addMessage(null, msg);
             return null;
         }
     }
-        
-    
-    public String editar() throws Exception{
-        try{
+
+
+    public String editar() throws Exception {
+        try {
             // Valida o CPF
-            if (!this.isCpfValid(this.intimacao.getCpf())){
+            if (!this.isCpfValid(this.intimacao.getCpf())) {
                 throw new Exception("CPF inválido!");
             }
-            
-            if(this.intimacao.getStatus().equals("Efetuada")){
+
+            if (this.intimacao.getStatus().equals("Efetuada")) {
                 // Busca as intimações no banco
                 List<Intimacao> buscarIntimacoes;
-                
-                Session session = HibernateUtil.getSessionFactory().openSession();        
+
+                Session session = HibernateUtil.getSessionFactory().openSession();
                 session.beginTransaction();
 
                 // Query para alteração do status
@@ -302,135 +300,133 @@ public class IntimacaoMB implements Serializable{
                 Intimacao intimacaoBanco = buscarIntimacoes.get(0);
 
                 // Se o status da Intimação for alterado para "Executada"
-                if(intimacaoBanco.getStatus().equals("Não efetuada") && this.intimacao.getStatus().equals("Efetuada")){
+                if (intimacaoBanco.getStatus().equals("Não efetuada") && this.intimacao.getStatus().equals("Efetuada")) {
                     Date date = new Date();
                     this.intimacao.setDtExecucao(date);
                 }
-                
-                session.getTransaction().commit();           
+
+                session.getTransaction().commit();
                 session.close();
             }
-            
-            Session session = HibernateUtil.getSessionFactory().openSession();        
+
+            Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            
-            
+
+
             // Query para alteração de oficial
-            Query query;      
-            query = session.createQuery("FROM Usuario WHERE nome = :nome");                   
+            Query query;
+            query = session.createQuery("FROM Usuario WHERE nome = :nome");
             query.setString("nome", this.intimacao.getOficial().getNome());
             this.oficial = query.list();
             this.intimacao.setOficial(this.oficial.get(0));
-            
+
             // Salva no bd
-            if(this.oficial == null){
+            if (this.oficial == null) {
                 throw new Exception("Oficial não existe. Insira um Oficial válido!");
-            }else{
+            } else {
                 session.update(this.intimacao);
             }
 
-            session.getTransaction().commit();           
-            session.close(); 
-            
+            session.getTransaction().commit();
+            session.close();
+
             conversation.end();
-            
+
             FacesMessage msg = new FacesMessage("Intimação Atualizada!");
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            
+
             return "intimacoes";
-        }
-        catch(HibernateException hex){
+        } catch (HibernateException hex) {
             FacesMessage msg = new FacesMessage("Não foi possivel editar a intimação. Veja os erros sinalizados");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            FacesContext.getCurrentInstance().addMessage(null, msg);        
+            FacesContext.getCurrentInstance().addMessage(null, msg);
             return null;
         }
     }
-    
-    public void validaCpf(){
+
+    public void validaCpf() {
         this.cpfLabelMsg = "";
-        
+
         // Valida o CPF
-        if(!isCpfValid(this.intimacao.getCpf())){
+        if (!isCpfValid(this.intimacao.getCpf())) {
             this.cpfLabelMsg = "CPF inválido";
         }
     }
-    
-    public void validaIntimacao(){
-        Session session = HibernateUtil.getSessionFactory().openSession();        
+
+    public void validaIntimacao() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query;
         query = session.createQuery("FROM Intimacao WHERE cpf = :cpf AND numProcesso = :num");
-        query.setString("cpf",this.intimacao.getCpf());
+        query.setString("cpf", this.intimacao.getCpf());
         query.setInteger("num", this.intimacao.getNumProcesso());
         List<Intimacao> vIntimacoes = query.list();
-        if (vIntimacoes.isEmpty()){
+        if (vIntimacoes.isEmpty()) {
             this.intimacaoLabelMsg = "";
-        }
-        else{            
+        } else {
             this.intimacaoLabelMsg = "Já existe uma intimação com o mesmo CPF e número do processo!";
         }
-        session.getTransaction().commit();           
-        session.close(); 
+        session.getTransaction().commit();
+        session.close();
     }
-    
-    public boolean isCpfValid(String strCpf){
+
+    public boolean isCpfValid(String strCpf) {
         strCpf = strCpf.replace(".", "").replace("-", "");
-        
-        if (strCpf.equals("")) {  
-            return false;  
-        }  
-        int d1, d2;  
-        int digito1, digito2, resto;  
-        int digitoCPF;  
-        String nDigResult;  
-  
-        d1 = d2 = 0;  
-        digito1 = digito2 = resto = 0;  
-  
-        for (int nCount = 1; nCount < strCpf.length() - 1; nCount++) {  
-            digitoCPF = Integer.valueOf(strCpf.substring(nCount - 1, nCount)).intValue();  
-  
+
+        if (strCpf.equals("")) {
+            return false;
+        }
+        int d1, d2;
+        int digito1, digito2, resto;
+        int digitoCPF;
+        String nDigResult;
+
+        d1 = d2 = 0;
+        digito1 = digito2 = resto = 0;
+
+        for (int nCount = 1; nCount < strCpf.length() - 1; nCount++) {
+            digitoCPF = Integer.valueOf(strCpf.substring(nCount - 1, nCount)).intValue();
+
             //multiplique a ultima casa por 2 a seguinte por 3 a seguinte por 4 e assim por diante.  
-            d1 = d1 + (11 - nCount) * digitoCPF;  
-  
+            d1 = d1 + (11 - nCount) * digitoCPF;
+
             //para o segundo digito repita o procedimento incluindo o primeiro digito calculado no passo anterior.  
-            d2 = d2 + (12 - nCount) * digitoCPF;  
-        }  
-  
+            d2 = d2 + (12 - nCount) * digitoCPF;
+        }
+
         //Primeiro resto da divisão por 11.  
-        resto = (d1 % 11);  
-  
+        resto = (d1 % 11);
+
         //Se o resultado for 0 ou 1 o digito é 0 caso contrário o digito é 11 menos o resultado anterior.  
-        if (resto < 2) {  
-            digito1 = 0;  
-        } else {  
-            digito1 = 11 - resto;  
-        }  
-  
-        d2 += 2 * digito1;  
-  
+        if (resto < 2) {
+            digito1 = 0;
+        } else {
+            digito1 = 11 - resto;
+        }
+
+        d2 += 2 * digito1;
+
         //Segundo resto da divisão por 11.  
-        resto = (d2 % 11);  
-  
+        resto = (d2 % 11);
+
         //Se o resultado for 0 ou 1 o digito é 0 caso contrário o digito é 11 menos o resultado anterior.  
-        if (resto < 2) {  
-            digito2 = 0;  
-        } else {  
-            digito2 = 11 - resto;  
-        }  
-  
+        if (resto < 2) {
+            digito2 = 0;
+        } else {
+            digito2 = 11 - resto;
+        }
+
         //Digito verificador do CPF que está sendo validado.  
-        String nDigVerific = strCpf.substring(strCpf.length() - 2, strCpf.length());  
-  
+        String nDigVerific = strCpf.substring(strCpf.length() - 2, strCpf.length());
+
         //Concatenando o primeiro resto com o segundo.  
-        nDigResult = String.valueOf(digito1) + String.valueOf(digito2);  
-  
+        nDigResult = String.valueOf(digito1) + String.valueOf(digito2);
+
         //comparar o digito verificador do cpf com o primeiro resto + o segundo resto.  
-        return nDigVerific.equals(nDigResult); 
+        return nDigVerific.equals(nDigResult);
     }
-        
+
     public Intimacao getIntimacao() {
         return intimacao;
     }
@@ -502,6 +498,6 @@ public class IntimacaoMB implements Serializable{
     public void setIntimacaoLabelMsg(String intimacaoLabelMsg) {
         this.intimacaoLabelMsg = intimacaoLabelMsg;
     }
-    
-    
+
+
 }

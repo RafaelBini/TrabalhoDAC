@@ -18,17 +18,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- *
  * @author rfabini
  */
 @Entity
-@Table(name="tb_cidade")
+@Table(name = "tb_cidade")
 public class Cidade {
     private int id;
     private String nome;
-    private Estado estado;   
-    private List<Usuario> usuarios;   
-    
+    private Estado estado;
+    private List<Usuario> usuarios;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
@@ -48,16 +47,16 @@ public class Cidade {
     }
 
     @ManyToOne
-    @JoinColumn(name="estado_id")
+    @JoinColumn(name = "estado_id")
     public Estado getEstado() {
         return estado;
     }
 
     public void setEstado(Estado estado) {
         this.estado = estado;
-    }   
+    }
 
-    @OneToMany(mappedBy="cidade", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
@@ -65,8 +64,6 @@ public class Cidade {
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
-    
-    
-    
-    
+
+
 }

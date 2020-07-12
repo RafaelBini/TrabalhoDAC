@@ -6,21 +6,23 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <ui:composition template="template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
-          
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
     <ui:define name="corpo">
         <div style="margin-left: auto; margin-right: auto; margin-top: 2%; margin-bottom: 2%; width: 900px; background-color: lightblue; padding: 20px; border-radius: 12px;">
             <h:form id="form">
                 <div class="form-group row">
                     <label class="text-primary col-2 col-form-label" for="cpf">CPF:</label>
                     <div class="col-3">
-                        <p:inputMask id="cpf" required="true" requiredMessage="Digite um CPF" class="form-control" mask="999.999.999-99"  value="#{intimacaoMB.intimacao.cpf}">
-                            <f:ajax execute="@this" render="form:cpfLabelMsg" listener="#{intimacaoMB.validaCpf()}" />
+                        <p:inputMask id="cpf" required="true" requiredMessage="Digite um CPF" class="form-control"
+                                     mask="999.999.999-99" value="#{intimacaoMB.intimacao.cpf}">
+                            <f:ajax execute="@this" render="form:cpfLabelMsg" listener="#{intimacaoMB.validaCpf()}"/>
                         </p:inputMask>
-                        <h:outputLabel id="cpfLabelMsg" for="cpf" value="#{intimacaoMB.cpfLabelMsg}" style="color: red"/>
+                        <h:outputLabel id="cpfLabelMsg" for="cpf" value="#{intimacaoMB.cpfLabelMsg}"
+                                       style="color: red"/>
                     </div>
                     <label class="text-primary col-2 col-form-label" for="nome">Nome:</label>
                     <div class="col-5">
@@ -36,32 +38,38 @@ and open the template in the editor.
                 <div class="form-group row">
                     <label class="text-primary col-2 col-form-label" for="oficial">Oficial de Justiça:</label>
                     <div class="col-6">
-                        <h:selectOneMenu  styleClass="form-control" id="oficiais" value="#{intimacaoMB.oficialSelecionado}">
-                            <f:selectItems value="#{intimacaoMB.users}" var="user" itemValue="#{user.id}" itemLabel="#{user.nome}"/>
-                        </h:selectOneMenu >
+                        <h:selectOneMenu styleClass="form-control" id="oficiais"
+                                         value="#{intimacaoMB.oficialSelecionado}">
+                            <f:selectItems value="#{intimacaoMB.users}" var="user" itemValue="#{user.id}"
+                                           itemLabel="#{user.nome}"/>
+                        </h:selectOneMenu>
                     </div>
                     <label class="text-primary col-2 col-form-label" for="numProcesso">Processo:</label>
                     <div class="col-2">
                         <h:inputText class="form-control" id="processo" value="#{intimacaoMB.intimacao.numProcesso}">
-                            <f:ajax execute="@this" render="form:errorMessageTag" listener="#{intimacaoMB.validaIntimacao()}" />
+                            <f:ajax execute="@this" render="form:errorMessageTag"
+                                    listener="#{intimacaoMB.validaIntimacao()}"/>
                         </h:inputText>
-                        <h:outputLabel id="errorMessageTag" for="intimacao" value="#{intimacaoMB.intimacaoLabelMsg}" style="color: red"/>
+                        <h:outputLabel id="errorMessageTag" for="intimacao" value="#{intimacaoMB.intimacaoLabelMsg}"
+                                       style="color: red"/>
                     </div>
                 </div>
-                <br />
-                <hr />
-                <br />
+                <br/>
+                <hr/>
+                <br/>
                 <div class="form-group">
                     <label class="text-primary " for="status">Estado da Intimação:</label>
                     <h:selectOneRadio id="status" value="#{intimacaoMB.intimacao.status}" layout="pageDirection">
                         <f:selectItem id="Efetuada" itemLabel="Efetuada" itemValue="Efetuada"/>
-                        <f:selectItem id="Nao-efetuada" itemLabel="Não efetuada" itemValue="Não efetuada" />
+                        <f:selectItem id="Nao-efetuada" itemLabel="Não efetuada" itemValue="Não efetuada"/>
                     </h:selectOneRadio>
                 </div>
-                
+
                 <div class="form-group" style="padding: 20px; text-align: center;">
-                    <h:commandButton action="#{intimacaoMB.voltar()}" class="btn bg-secondary text-white" value="Voltar" />
-                    <h:commandButton action="#{intimacaoMB.cadastrar()}" class="btn bg-primary text-white" value="Cadastrar"/>
+                    <h:commandButton action="#{intimacaoMB.voltar()}" class="btn bg-secondary text-white"
+                                     value="Voltar"/>
+                    <h:commandButton action="#{intimacaoMB.cadastrar()}" class="btn bg-primary text-white"
+                                     value="Cadastrar"/>
                 </div>
             </h:form>
         </div>

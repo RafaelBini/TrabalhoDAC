@@ -6,6 +6,7 @@
 package webservices;
 
 import beans.Usuario;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Context;
@@ -36,8 +37,8 @@ public class OficialResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Usuario> listarOficiais() {
-        List<Usuario> oficiais = Usuario.listarOficiais();
+    public ArrayList<Usuario> listarOficiais() {
+        ArrayList<Usuario> oficiais = Usuario.listarOficiais();
         return oficiais;
     }
 }
