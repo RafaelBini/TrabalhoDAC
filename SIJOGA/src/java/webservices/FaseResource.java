@@ -6,9 +6,11 @@
 package webservices;
 
 import beans.Fase;
+import beans.Processo;
 import java.net.URI;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashSet;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -43,6 +45,8 @@ public class FaseResource {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         fase.setDtCriacao(Date.from(Instant.now()));
+        fase.setProcesso((Processo)session.get(Processo.class, fase.getProcesso().getId()));
+        fase.getProcesso().setStatus("Aberto");
         
         session.save(fase);
         

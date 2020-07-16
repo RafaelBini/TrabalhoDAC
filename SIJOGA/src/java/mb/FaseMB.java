@@ -29,6 +29,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
@@ -148,6 +149,7 @@ public class FaseMB implements Serializable {
             session.save(f);
         } // Intimado
         else if ("Intimado".equals(this.resposta)) {
+            
             Processo p = (Processo) session.get(Processo.class, this.faseEscolhida.getProcesso().getId());
             Usuario u = intimado.equals("Promovente") ? p.getPromovente() : p.getPromovida();
 
@@ -158,20 +160,33 @@ public class FaseMB implements Serializable {
 
             Intimacao i = new Intimacao(u.getNome(), u.getCpf(), endereco, o, p.getId());
 
+            
             Client client = ClientBuilder.newClient();
 
             Response r = client
                     .target("http://localhost:8080/SOSIFOD/webresources/intimacoes")
                     .request(MediaType.APPLICATION_JSON + ";charset=utf-8")
                     .post(Entity.json(i));
-
+            
             if (r.getStatus() == 201) {
-                Fase f = (Fase) session.get(Fase.class, this.faseEscolhida.getId());
-                f.setResposta("Intimação");
-                f.setJustificativaResposta("Aguardando execução de intimação pelo Oficial de Justiça");
+                Fase f = (Fase) session.get(Fase.class, this.faseEscolhida.getId());                
+                f.setResposta("Intimacao");
+                f.setJustificativaResposta("Efetuada Intimação");
+                f.getProcesso().setStatus("Aguardando Oficial");
                 session.save(f);
+                
+                Fase novaFase = new Fase();
+                novaFase.setCriador(f.getProcesso().getJuiz());
+                novaFase.setDescricao("Intimação solicitada para " + i.getNome() + " - Endereco: " + i.getEndereco());
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/Sao_Paulo"));
+                Date hoje = cal.getTime();
+                novaFase.setDtCriacao(hoje);
+                novaFase.setProcesso(f.getProcesso());
+                novaFase.setTipo("Informativa");
+                novaFase.setTitulo("Intimação Solicitada");
+                session.save(novaFase);
             }
-
+            
         } // Encerrado
         else if ("Encerrado".equals(this.resposta)) {
             // Atualiza o processo para encerrado e insere um vencedor
@@ -190,7 +205,7 @@ public class FaseMB implements Serializable {
         // Fecha sessao hiber
         session.getTransaction().commit();
         session.close();
-
+        
         // Finaliza escopo
         conversation.end();
 

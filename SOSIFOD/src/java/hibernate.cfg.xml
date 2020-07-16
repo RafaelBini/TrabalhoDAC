@@ -46,7 +46,7 @@ Contributor(s):
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/SOSIFOD</property>
         <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">tads240400</property>
+        <property name="hibernate.connection.password">senha123</property>
         <mapping class="beans.Usuario"/>
         <mapping class="beans.Intimacao"/>
     </session-factory>

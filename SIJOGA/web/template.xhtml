@@ -54,16 +54,20 @@ and open the template in the editor.
 
 </h:head>
 <h:body>
-    <h:form rendered="#{loginMB.loggedUser != null}" enctype="multipart/form-data">
+    
         <p:layout fullPage="true">
             <p:layoutUnit position="north" style="border: 0px; padding: 0px; margin:0px;">
+                <h:form rendered="#{loginMB.loggedUser != null}" enctype="multipart/form-data">
                 <nav class="navbar bg-dark">
-                    <h1 class="text-white navbar-brand">SIJOGA</h1>
-                    <h2 class="text-white" style="text-align: left; font-size: 16px; font-weight: 300">
-                        #{loginMB.loggedUser.tipo}</h2>
-                    <h:commandButton action="#{loginMB.sair()}" immediate="true" styleClass="btn btn-danger"
-                                     value="Sair"/>
+                    
+                        <h1 class="text-white navbar-brand">SIJOGA</h1>
+                        <h2 class="text-white" style="text-align: left; font-size: 16px; font-weight: 300">
+                            #{loginMB.loggedUser.tipo}</h2>
+                        <h:commandButton action="#{loginMB.sair()}" immediate="true" styleClass="btn btn-danger"
+                                         value="Sair"/>
+                    
                 </nav>
+                </h:form>
             </p:layoutUnit>
 
             <p:growl/>
@@ -72,7 +76,7 @@ and open the template in the editor.
             </p:layoutUnit>
 
         </p:layout>
-    </h:form>
+    
 
     <h:panelGrid rendered="#{loginMB.loggedUser == null}" columns="1"
                  style="margin: auto; margin-top: 50px; text-align: center;">

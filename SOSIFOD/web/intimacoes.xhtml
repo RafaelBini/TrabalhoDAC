@@ -68,7 +68,7 @@ and open the template in the editor.
                     <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Admin'}"
                                      image="resources/images/excluir.png" action="#{intimacaoMB.excluir(i)}"
                                      value="Excluir" style="height: 20px;"/>
-                    <h:commandButton styleClass="btn btn-primary" action="#{intimacaoMB.executar(i)}" value="Executar"/>
+                    <h:commandButton rendered="#{i.status != 'Efetuada'}" styleClass="btn btn-primary" action="#{intimacaoMB.executar(i)}" value="Executar"/>
                 </p:column>
             </h:dataTable>
         </h:form>

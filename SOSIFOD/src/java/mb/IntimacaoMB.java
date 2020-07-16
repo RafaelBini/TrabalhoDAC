@@ -140,10 +140,11 @@ public class IntimacaoMB implements Serializable {
             
             Fase f = new Fase(
                     p,
-                    "Intimação executada",
-                    "Fase gerada automaticamente a partir da execução da intimação via SOSIFOD.",
-                    "Deliberativa"
+                    "Intimacao executada",
+                    "Fase gerada automaticamente a partir da execucao da intimacao via SOSIFOD.",
+                    "Informativa"
             );
+            
 
             Client client = ClientBuilder.newClient();
 

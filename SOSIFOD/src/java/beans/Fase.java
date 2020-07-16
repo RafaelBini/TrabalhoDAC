@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class Fase implements Serializable {
 
@@ -8,7 +9,7 @@ public class Fase implements Serializable {
     private String titulo;
     private String descricao;
     private String tipo;
-
+    
     public Fase() {
     }
 
@@ -17,6 +18,8 @@ public class Fase implements Serializable {
         this.titulo = titulo;
         this.descricao = descricao;
         this.tipo = tipo;
+
+        
     }
 
     public Processo getProcesso() {
@@ -50,5 +53,8 @@ public class Fase implements Serializable {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+    
+    
 
 }

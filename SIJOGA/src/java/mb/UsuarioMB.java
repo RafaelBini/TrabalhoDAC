@@ -50,9 +50,9 @@ public class UsuarioMB implements Serializable {
 
     @PostConstruct
     public void init() {
-        FacesMessage msg = new FacesMessage("Comecei o escopo!");
-        msg.setSeverity(FacesMessage.SEVERITY_INFO);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        //FacesMessage msg = new FacesMessage("Comecei o escopo!");
+        //msg.setSeverity(FacesMessage.SEVERITY_INFO);
+        //FacesContext.getCurrentInstance().addMessage(null, msg);
 
         // Inicializa o escopo
         conversation.begin();
@@ -148,9 +148,9 @@ public class UsuarioMB implements Serializable {
     }
 
     public String voltar() {
-        FacesMessage msg = new FacesMessage("Terminei o escopo!");
-        msg.setSeverity(FacesMessage.SEVERITY_INFO);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        //FacesMessage msg = new FacesMessage("Terminei o escopo!");
+        //msg.setSeverity(FacesMessage.SEVERITY_INFO);
+        //FacesContext.getCurrentInstance().addMessage(null, msg);
 
         conversation.end();
 
