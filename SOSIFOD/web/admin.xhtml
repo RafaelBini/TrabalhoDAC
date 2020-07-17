@@ -12,9 +12,11 @@ and open the template in the editor.
                 xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <ui:define name="corpo">
+        <h:form>
         <h:panelGrid styleClass="content" columns="1">
             <h1 class="text-dk">SOSIFOD</h1>
             <h6 class="text-dk">ADMIN</h6>
+            
 
             <h:commandButton styleClass="btn btn-primary" action="#{usuarioMB.goCadastrarOficial()}"
                              value="Novo Oficial de Justiça"/>
@@ -24,6 +26,8 @@ and open the template in the editor.
 
             <h:commandButton styleClass="btn btn-secondary" action="#{intimacaoMB.loadIntimacoes()}"
                              value="Manter Intimações"/>
+            
         </h:panelGrid>
+        </h:form>
     </ui:define>
 </ui:composition>

@@ -251,6 +251,12 @@ public class IntimacaoMB implements Serializable {
         conversation.end();
         return "intimacoes";
     }
+    
+    public String voltArdmin() {
+        conversation.end();
+        return "admin";
+    }
+    
 
     public String cadastrar() throws Exception {
         try {

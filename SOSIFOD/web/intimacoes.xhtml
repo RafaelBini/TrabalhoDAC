@@ -13,10 +13,11 @@ and open the template in the editor.
 
 
     <ui:define name="corpo">
+        <h:form>
         <h:commandButton rendered="#{loginMB.loggedUser.tipo == 'Admin'}" styleClass="btn btn-primary"
                          action="#{intimacaoMB.goCadastrar()}" value="Nova Intimação"/>
         <br/>
-        <h:form>
+        
             <h:dataTable id="intimacoes" value="#{intimacaoMB.intimacoes}"
                          var="i"
                          style="width: 100%; text-align: center; font-size: 16px"
@@ -71,6 +72,11 @@ and open the template in the editor.
                     <h:commandButton rendered="#{i.status != 'Efetuada'}" styleClass="btn btn-primary" action="#{intimacaoMB.executar(i)}" value="Executar"/>
                 </p:column>
             </h:dataTable>
+        
+        <center>
+            <h:commandButton immediate="true" action="#{intimacaoMB.voltArdmin()}" class="btn bg-secondary text-white"
+                     value="Voltar"/></center>
+            
         </h:form>
     </ui:define>
 </ui:composition>
